@@ -4,11 +4,11 @@
 public class if_statement {
 
 
-    private boolean_expression b_expr;
+    private Boolean_expression b_expr;
     private Block blk, blk2;
 
 
-    public if_statement(boolean_express b_expr, Block blk, Block bl2)
+    public if_statement(Boolean_expression b_expr, Block blk, Block bl2)
     {
         if (b_expr == null)
         {

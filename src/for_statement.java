@@ -3,10 +3,10 @@
  */
 public class for_statement {
 
-    private iter it;
+    private Iter it;
     private arithmetic_expression a_express;
 
-    public for_statement(iter it, arithmetic_expression a_express)
+    public for_statement(Iter it, arithmetic_expression a_express)
     {
         if (it == null)
             throw new IllegalArgumentException ("null iteration");
