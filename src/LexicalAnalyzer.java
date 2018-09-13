@@ -1,3 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Created by D. Tyla on 9/11/2018.
  */
@@ -28,6 +34,12 @@ public class LexicalAnalyzer {
         //rev_div_operator → \
         //exp_operator → ^
 
+    }
+    public Token getNextToken() throws LexicalException
+    {
+        if (tokens.isEmpty())
+            throw new LexicalException ("There aren't any more tokens");
+        return tokens.remove(0);
     }
 
 }

@@ -4,10 +4,10 @@
 public class while_statement {
 
 
-    private boolean_expression b_expr;
+    private Boolean_expression b_expr;
     private Block blk;
 
-    public while_statement(boolean_expression b_expr, Block blk)
+    public while_statement(Boolean_expression b_expr, Block blk)
     {
         if (b_expr == null)
             throw new IllegalArgumentException ("null boolean expression");
@@ -18,5 +18,10 @@ public class while_statement {
 
     }
 
-    //TODO??
+    @Override
+    public void execute()
+    {
+        while (b_expr.evaluate())
+            blk.execute();
+    }
 }

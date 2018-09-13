@@ -23,5 +23,12 @@ public class if_statement {
         this.blk2 = blk2;
     }
 
-    //TODO:Anything else??
+    @Override
+    public void execute()
+    {
+        if (b_expr.evaluate())
+            blk.execute();
+        else
+            blk2.execute();
+    }
 }

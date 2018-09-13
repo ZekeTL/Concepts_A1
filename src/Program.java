@@ -6,7 +6,7 @@ public class Program {
     private Block blk;
     //function id??
 
-    public Program()
+    public Program(Block blk)
     {
         if(blk == null)
         {
@@ -15,5 +15,9 @@ public class Program {
         this.blk = blk;
     }
 
-    //TODO??
+    public void execute ()
+    {
+        blk.execute();
+    }
+
 }
