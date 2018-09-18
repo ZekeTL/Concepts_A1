@@ -15,7 +15,7 @@ public class LexicalAnalyzer {
     {
         if (fileName == null)
             throw new IllegalArgumentException ("null file name argument");
-        tokenList = new ArrayList<Token>();
+        tokens = new ArrayList<token>();
         Scanner input = new Scanner (new File(fileName));
         int lineNumber = 0;
         while (input.hasNext())
@@ -25,7 +25,7 @@ public class LexicalAnalyzer {
             processLine (line, lineNumber);
         }
         input.close();
-        tokenList.add(new Token (TokenType.EOS_TOK, "EOS", lineNumber, 1));
+        tokens.add(new Token (tokentype.EOS_TOK, "EOS", lineNumber, 1));
     }
 
     private void processLine(String line, int lineNumber) throws LexicalException
@@ -38,76 +38,72 @@ public class LexicalAnalyzer {
         while (index < line.length())
         {
             String lexeme = getLexeme (line, index);
-            TokenType tokType = getTokenType (lexeme, lineNumber, index + 1);
-            tokenList.add(new Token (tokType, lexeme, lineNumber, index + 1));
+            tokentype tokType = getTokenType (lexeme, lineNumber, index + 1);
+            tokens.add(new token (tokType, lexeme, lineNumber, index + 1));
             index += lexeme.length();
             index = skipWhiteSpace(line, index);
         }
     }
 
-    private Tokentype getTokenType()
+    private tokentype getTokenType()
     {
         if (lexeme == null || lexeme.length() == 0)
             throw new IllegalArgumentException ("invalid string argument");
-        TokenType tokType = TokenType.EOS_TOK;
+        tokentype tokType = TokenType.EOS_TOK;
         if (Character.isDigit(lexeme.charAt(0)))
             if (allDigits (lexeme))
-                tokType = TokenType.LITERAL_INTEGER_TOK;
+                tokType = tokentype.LITERAL_INTEGER_TOK;
             else
                 throw new LexicalException ("literal integer expecated "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
         else if (Character.isLetter(lexeme.charAt(0)))
         {
             /*if (lexeme.length() == 1)
-                tokType = TokenType.ID_TOK;*/
+                tokType = tokentype.ID_TOK;*/
             else if (lexeme.equals("function"))
-                tokType = TokenType.function_tok;
+                tokType = tokentype.function_tok;
             else if (lexeme.equals("end"))
-                tokType = TokenType.end_tok;
+                tokType = tokentype.end_tok;
             else if (lexeme.equals("if"))
-                tokType = TokenType.if_tok;
+                tokType = tokentype.if_tok;
             else if (lexeme.equals("else"))
-                tokType = TokenType.else_tok;
+                tokType = tokentype.else_tok;
             else if (lexeme.equals("print"))
-                tokType = TokenType.print_tok;
+                tokType = tokentype.print_tok;
             else if (lexeme.equals("while"))
-                tokType = TokenType.while_tok;
+                tokType = tokentype.while_tok;
             else
                 throw new LexicalException ("invalid lexeme "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
         }
-        /*else if (lexeme.equals("("))
-            tokType = TokenType.LEFT_PAREN_TOK;
-        else if (lexeme.equals(")"))
-            tokType = TokenType.RIGHT_PAREN_TOK;*/
         else if (lexeme.equals(">="))
-            tokType = TokenType.ge_operator;        //ge_operator → >=
+            tokType = tokentype.ge_operator;        //ge_operator → >=
         else if (lexeme.equals(">"))
-            tokType = TokenType.gt_operator;         //gt_operator → >
+            tokType = tokentype.gt_operator;         //gt_operator → >
         else if (lexeme.equals("<="))
-            tokType = TokenType.le_operator;         //le_operator → <=
+            tokType = tokentype.le_operator;         //le_operator → <=
         else if (lexeme.equals("<"))
-            tokType = TokenType.lt_operator;        ///lt_operator → <
+            tokType = tokentype.lt_operator;        ///lt_operator → <
         else if (lexeme.equals("!="))
-            tokType = TokenType.ne_operator;         //ne_operator → <=
+            tokType = tokentype.ne_operator;         //ne_operator → <=
         else if (lexeme.equals("=="))
-            tokType = TokenType.eq_operator;        //eq_operator → = =
+            tokType = tokentype.eq_operator;        //eq_operator → = =
         else if (lexeme.equals("%"))
-            tokType = TokenType.mod_operator;        //mod_operator → = =
+            tokType = tokentype.mod_operator;        //mod_operator → = =
         else if (lexeme.equals("^"))
-            tokType = TokenType.exp_operator;         //exp_operator → ^
+            tokType = tokentype.exp_operator;         //exp_operator → ^
         else if (lexeme.equals("+"))
-            tokType = TokenType.add_operator;         //add_operator → +
+            tokType = tokentype.add_operator;         //add_operator → +
         else if (lexeme.equals("-"))
-            tokType = TokenType.sub_operator;         //sub_operator → -
+            tokType = tokentype.sub_operator;         //sub_operator → -
         else if (lexeme.equals("*"))
-            tokType = TokenType.mul_operator;         //mul_operator → *
+            tokType = tokentype.mul_operator;         //mul_operator → *
         else if (lexeme.equals("/"))
-            tokType = TokenType.div_operator;         //div_operator → /
+            tokType = tokentype.div_operator;         //div_operator → /
         else if (lexeme.equals ("\"))
-            tokType = TokenType.rev_div_operator;     //rev_div_operator → \
+            tokType = tokentype.rev_div_operator;     //rev_div_operator → \
         else if (lexeme.equals ("="))
-            tokType = TokenType.assignment_operator;   //assignment_operator → =
+            tokType = tokentype.assignment_operator;   //assignment_operator → =
         else
             throw new LexicalException ("invalid lexeme "+ " at row " +
                     rowNumber  + " and column " + columnNumber);
@@ -149,14 +145,14 @@ public class LexicalAnalyzer {
         return index;
     }
 
-    public Token getNextToken() throws LexicalException
+    public token getNextToken() throws LexicalException
     {
         if (tokenList.isEmpty())
             throw new LexicalException ("no more tokens");
         return tokenList.get(0);
     }
 
-    public Token removeNextToken() throws LexicalException
+    public token removeNextToken() throws LexicalException
     {
         if (tokens.isEmpty())
             throw new LexicalException ("There aren't any more tokens");
