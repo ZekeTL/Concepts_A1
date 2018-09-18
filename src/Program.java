@@ -6,7 +6,7 @@ public class Program {
     private Block blk;
     //function id??
 
-    public Program()
+    public Program(Block blk)
     {
         if(blk == null)
         {

@@ -7,7 +7,7 @@ public class Statement {
     private if_statement if_stat;
     private for_statement f_stat;
     private while_statement w_stat;
-    private print_statement p_stat;
+    private Print_statement p_stat;
 
     //TODO??
 }
