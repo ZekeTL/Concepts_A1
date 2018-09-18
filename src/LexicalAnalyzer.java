@@ -59,32 +59,24 @@ public class LexicalAnalyzer {
         else if (Character.isLetter(lexeme.charAt(0)))
         {
             /*if (lexeme.length() == 1)
-                tokType = TokenType.ID_TOK;
-            else if (lexeme.equals("if"))
-                tokType = TokenType.IF_TOK;
+                tokType = TokenType.ID_TOK;*/
             else if (lexeme.equals("function"))
-                tokType = TokenType.FUNCTION_TOK;
-            else if (lexeme.equals("then"))
-                tokType = TokenType.THEN_TOK;
+                tokType = TokenType.function_tok;
             else if (lexeme.equals("end"))
-                tokType = TokenType.END_TOK;
+                tokType = TokenType.end_tok;
+            else if (lexeme.equals("if"))
+                tokType = TokenType.if_tok;
             else if (lexeme.equals("else"))
-                tokType = TokenType.ELSE_TOK;
-            else if (lexeme.equals("while"))
-                tokType = TokenType.WHILE_TOK;
-            else if (lexeme.equals("do"))
-                tokType = TokenType.DO_TOK;
+                tokType = TokenType.else_tok;
             else if (lexeme.equals("print"))
-                tokType = TokenType.PRINT_TOK;
-            else if (lexeme.equals("repeat"))
-                tokType = TokenType.REPEAT_TOK;
-            else if (lexeme.equals("until"))
-                tokType = TokenType.UNTIL_TOK;
+                tokType = TokenType.print_tok;
+            else if (lexeme.equals("while"))
+                tokType = TokenType.while_tok;
             else
                 throw new LexicalException ("invalid lexeme "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
         }
-        else if (lexeme.equals("("))
+        /*else if (lexeme.equals("("))
             tokType = TokenType.LEFT_PAREN_TOK;
         else if (lexeme.equals(")"))
             tokType = TokenType.RIGHT_PAREN_TOK;*/
@@ -112,6 +104,8 @@ public class LexicalAnalyzer {
             tokType = TokenType.mul_operator;         //mul_operator → *
         else if (lexeme.equals("/"))
             tokType = TokenType.div_operator;         //div_operator → /
+        else if (lexeme.equals ("\"))
+            tokType = TokenType.rev_div_operator;     //rev_div_operator → \
         else if (lexeme.equals ("="))
             tokType = TokenType.assignment_operator;   //assignment_operator → =
         else
@@ -122,14 +116,31 @@ public class LexicalAnalyzer {
         //TODO: Finish this list
         //id → letter
         //literal_integer → digit literal_integer | digit
-        //assignment_operator → =
         //rev_div_operator → \
 
     }
 
+    private boolean digits(String lexeme)
+    {
+        if (lexeme == null)
+            throw new IllegalArgumentException ("null string argument");
+        int i = 0;
+        while (i < lexeme.length() && Character.isDigit(lexeme.charAt(i)))
+            i++;
+        return i == lexeme.length();
+    }
 
-    //TODO: Do we need all Digits
-    //TODO: Do we need getLexeme
+    private String getLexeme(String line, int index)
+    {
+        if (line == null)
+            throw new IllegalArgumentException ("null string argument");
+        if (index < 0)
+            throw new IllegalArgumentException ("invalid index argument");
+        int i = index;
+        while (i < line.length() && !Character.isWhitespace(line.charAt(i)))
+            i++;
+        return line.substring(index, i);
+    }
 
     private int skipWhiteSpace(String line, int index)
     {
@@ -138,9 +149,14 @@ public class LexicalAnalyzer {
         return index;
     }
 
-    //TODO: Do we need getLookaheadToken()
-
     public Token getNextToken() throws LexicalException
+    {
+        if (tokenList.isEmpty())
+            throw new LexicalException ("no more tokens");
+        return tokenList.get(0);
+    }
+
+    public Token removeNextToken() throws LexicalException
     {
         if (tokens.isEmpty())
             throw new LexicalException ("There aren't any more tokens");
