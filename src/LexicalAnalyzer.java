@@ -87,17 +87,21 @@ public class LexicalAnalyzer {
         else if (lexeme.equals("("))
             tokType = TokenType.LEFT_PAREN_TOK;
         else if (lexeme.equals(")"))
-            tokType = TokenType.RIGHT_PAREN_TOK;
+            tokType = TokenType.RIGHT_PAREN_TOK;*/
         else if (lexeme.equals(">="))
-            tokType = TokenType.GE_TOK;
+            tokType = TokenType.ge_operator;        //ge_operator → >=
         else if (lexeme.equals(">"))
-            tokType = TokenType.GT_TOK;*/
+            tokType = TokenType.gt_operator;         //gt_operator → >
         else if (lexeme.equals("<="))
-            tokType = TokenType.LE_TOK;
+            tokType = TokenType.le_operator;         //le_operator → <=
         else if (lexeme.equals("<"))
             tokType = TokenType.lt_operator;        ///lt_operator → <
+        else if (lexeme.equals("!="))
+            tokType = TokenType.ne_operator;         //ne_operator → <=
         else if (lexeme.equals("=="))
             tokType = TokenType.eq_operator;        //eq_operator → = =
+        else if (lexeme.equals("%"))
+            tokType = TokenType.mod_operator;        //mod_operator → = =
         else if (lexeme.equals("^"))
             tokType = TokenType.exp_operator;         //exp_operator → ^
         else if (lexeme.equals("+"))
@@ -119,12 +123,6 @@ public class LexicalAnalyzer {
         //id → letter
         //literal_integer → digit literal_integer | digit
         //assignment_operator → =
-        //le_operator → <=
-        ///lt_operator → <
-        //ge_operator → >=
-        //gt_operator → >
-        //ne_operator → !=
-        //mod_operator → %
         //rev_div_operator → \
 
     }
