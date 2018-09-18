@@ -3,6 +3,9 @@
  */
 public class Block {
 
-    //statement
-    //Block? - recusrive?
+    public Block(Statement statements []){
+         for(statement: statements){
+             //TODO: What does statement do anyway?
+         }
+    }
 }
