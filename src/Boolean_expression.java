@@ -1,11 +1,9 @@
 public class Boolean_expression {
 
-   // public enum RelOperator {EQ_OP, NE_OP, GT_OP, GE_OP, LT_OP, LE_OP};
-   //TODO: Call the Relative_Operator Class?
-    private RelOperator op;
+    private Relative_op op; //OR Should this just be a string?
     private arithmetic_expression expr1, expr2;
 
-    public Boolean_expression(RelOperator op, arithmetic_expression expr1,
+    public Boolean_expression(Relative_op op, arithmetic_expression expr1,
                              arithmetic_expression expr2)
     {
         if (op == null)
@@ -22,22 +20,22 @@ public class Boolean_expression {
         boolean result = false;
         switch (op)
         {
-            case EQ_OP:
+            case eq_operator:
                 result = expr1.evaluate(expr1.getString()) == expr2.evaluate(expr2.getString());
                 break;
-            case NE_OP:
+            case ne_operator:
                 result = expr1.evaluate(expr1.getString()) != expr2.evaluate(expr2.getString());
                 break;
-            case LT_OP:
+            case lt_operator:
                 result = expr1.evaluate(expr1.getString()) < expr2.evaluate(expr2.getString());
                 break;
-            case LE_OP:
+            case le_operator:
                 result = expr1.evaluate(expr1.getString()) <= expr2.evaluate(expr2.getString());
                 break;
-            case GT_OP:
+            case gt_operator:
                 result = expr1.evaluate(expr1.getString()) > expr2.evaluate(expr2.getString());
                 break;
-            case GE_OP:
+            case ge_operator:
                 result = expr1.evaluate(expr1.getString()) >= expr2.evaluate(expr2.getString());
                 break;
         }

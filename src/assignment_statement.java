@@ -5,13 +5,8 @@ public class assignment_statement {
 
     private arithmetic_expression a_express;
     private assignment_operator a_op;
+    //TODO: Id var;
 
-
-    /**
-     *
-     * @param a_express cannot be null
-     * @param a_op ???
-     */
     public assignment_statement(arithmetic_expression a_express, assignment_operator a_op)
     {
         if (a_express == null)
