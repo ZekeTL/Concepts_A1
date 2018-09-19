@@ -18,3 +18,6 @@ public class arithmetic_operator {
         return 0;
     }
 }
+
+
+//TODO: This should look like the Relative_op class
