@@ -7,7 +7,7 @@ public class Interpreter {
     {
         try
         {
-            Parser pars = new Parser ("test1.jl"); //TODO change this filename
+            Parser pars = new Parser ("test1.jl");
             Program pro = pars.parse();
             pro.execute();
         }

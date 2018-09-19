@@ -1,4 +1,7 @@
-public class Relative_op {
+public enum Relative_op {
 
-    //TODO: I don't understand the point of this class. DOesn't BooleanExpression do the same thing?
+    //TODO: Ensure this is correct
+    le_operator, lt_operator, ge_operator, gt_operator, eq_operator, ne_operator
+
+
 }

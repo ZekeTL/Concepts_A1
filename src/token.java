@@ -7,7 +7,7 @@ public class token {
     private tokentype tokType;
     private String lexeme;
     private int rowNumber;
-    private int columnNumber;
+    private int colNumber;
 
 
     public token(tokentype tokType, String lexeme, int rowNumber,
@@ -24,7 +24,7 @@ public class token {
         this.tokType = tokType;
         this.lexeme = lexeme;
         this.rowNumber = rowNumber;
-        this.columnNumber = columnNumber;
+        this.colNumber = columnNumber;
     }
 
     public tokentype getTokType()
@@ -44,7 +44,11 @@ public class token {
 
     public int getColumnNumber()
     {
-        return columnNumber;
+        return colNumber;
+    }
+
+    public String toString(){
+        return "Line Number:" +this.getRowNumber()+ "Lexeme Value:" + this.getLexeme() + "Token Type:" + this.getTokType();
     }
 
 }

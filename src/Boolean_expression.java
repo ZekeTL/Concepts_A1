@@ -1,7 +1,7 @@
 public class Boolean_expression {
 
-    public enum RelOperator {EQ_OP, NE_OP, GT_OP, GE_OP, LT_OP, LE_OP};
-
+   // public enum RelOperator {EQ_OP, NE_OP, GT_OP, GE_OP, LT_OP, LE_OP};
+   //TODO: Call the Relative_Operator Class?
     private RelOperator op;
     private arithmetic_expression expr1, expr2;
 

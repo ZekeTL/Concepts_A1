@@ -2,7 +2,7 @@ public class Iter {
 
     private int index = 0;
 
-    public iterate(TokenList tokens){
+    public iterate(Tokens tokens){
         if(tokens == null){
             throw new IllegalArgumentException("List cannot be empty!");
         }
@@ -11,7 +11,7 @@ public class Iter {
         }
     }
 
-    public getNext(TokenList tokens){
+    public getNext(Tokens tokens){
         if(tokens[index] == null){
             throw new IndexOutOfBoundsException("Index does not exist!");
         }
