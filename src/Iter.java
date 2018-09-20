@@ -1,12 +1,7 @@
 public class Iter {
 
-<<<<<<< HEAD
     public token getCurrent(int index, token tokens[]){
-=======
-    private int index;
 
-    public token getCurrent(token tokens[], int index){
->>>>>>> 47140adcf84731a98019332f69f8849d3183740e
         if(tokens[0] == null){
             throw new IllegalArgumentException("List cannot be empty!");
         }
