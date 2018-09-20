@@ -1,8 +1,8 @@
 public class Iter {
 
-    private int index = 0;
+    private int index;
 
-    public token getCurrent(token tokens[]){
+    public token getCurrent(token tokens[], int index){
         if(tokens[0] == null){
             throw new IllegalArgumentException("List cannot be empty!");
         }
