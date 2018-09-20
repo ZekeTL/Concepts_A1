@@ -1,15 +1,13 @@
 public class Iter {
 
-    private int index = 0;
-
-    public token getCurrent(token tokens[]){
+    public token getCurrent(int index, token tokens[]){
         if(tokens[0] == null){
             throw new IllegalArgumentException("List cannot be empty!");
         }
         else return tokens[index];
     }
 
-    public token getLast(token tokens[]){
+    public token getLast(int index, token tokens[]){
         if(tokens[0] == null){
             throw new IllegalArgumentException("List cannot be empty!");
         }
@@ -22,7 +20,7 @@ public class Iter {
         else return tokens[index];
     }
 
-    public token getNext(token tokens[]){
+    public token getNext(int index, token tokens[]){
         index++;
 
         if(tokens[index] == null){
