@@ -32,7 +32,7 @@ public class Memory
        //TODO: FIX THIS!
         if (!LexicalAnalyzer.isValidIdentifier(ch))
             throw new IllegalArgumentException (ch + " is not a valid identifier");
-        return ch - 'A';
+        return ch - 97;
     }
 
     public static void displayMemory()
