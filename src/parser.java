@@ -142,15 +142,15 @@ public class Parser
      */
     private Statement getWhileStatement() throws ParserException
     {
-        Token tok = getNextToken ();
-        match (tok, TokenType.WHILE_TOK);
-        BooleanExpression expr = getBooleanExpression();
+        token tok = getNextToken ();
+        match (tok, tokentype.while_tok);
+        Boolean_expression expr = getBooleanExpression();
         tok = getNextToken ();
-        match (tok, TokenType.DO_TOK);
+        match (tok, tokentype.DO_TOK);
         Block blk = getBlock();
         tok = getNextToken();
-        match (tok, TokenType.END_TOK);
-        return new WhileStatement (expr, blk);
+        match (tok, tokentype.end_tok);
+        return new while_statement (expr, blk);
     }
 
     /**
@@ -160,32 +160,32 @@ public class Parser
      */
     private Statement getIfStatement() throws ParserException
     {
-        Token tok = getNextToken ();
-        match (tok, TokenType.IF_TOK);
-        BooleanExpression expr = getBooleanExpression();
+        token tok = getNextToken ();
+        match (tok, tokentype.if_tok);
+        Boolean_expression expr = getBooleanExpression();
         tok = getNextToken ();
-        match (tok, TokenType.THEN_TOK);
+        match (tok, tokentype.THEN_TOK);
         Block blk1 = getBlock();
         tok = getNextToken ();
-        match (tok, TokenType.ELSE_TOK);
+        match (tok, tokentype.else_tok);
         Block blk2 = getBlock();
         tok = getNextToken();
-        match (tok, TokenType.END_TOK);
-        return new IfStatement (expr, blk1, blk2);
+        match (tok, tokentype.end_tok);
+        return new if_statement(expr, blk1, blk2);
     }
 
     /**
      * @param tok cannot be null - checked with assertion
      * @return whether tok can be the start of a statement
      */
-    private boolean isValidStartOfStatement(Token tok)
+    private boolean isValidStartOfStatement(token tok)
     {
         assert (tok != null);
-        return tok.getTokType() == TokenType.ID_TOK ||
-                tok.getTokType() == TokenType.IF_TOK ||
-                tok.getTokType() == TokenType.WHILE_TOK ||
-                tok.getTokType() == TokenType.PRINT_TOK ||
-                tok.getTokType() == TokenType.REPEAT_TOK;
+        return tok.getTokType() == tokentype.ID_TOK ||
+                tok.getTokType() == tokentype.IF_TOK ||
+                tok.getTokType() == tokentype.WHILE_TOK ||
+                tok.getTokType() == tokentype.PRINT_TOK ||
+                tok.getTokType() == tokentype.REPEAT_TOK;
     }
 
     /**
@@ -193,13 +193,13 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <arithmetic_expression> → <id> | <literal_integer> | <arithmetic_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private ArithmeticExpression getArithmeticExpression() throws ParserException
+    private arithmetic_expression getArithmeticExpression() throws ParserException
     {
-        ArithmeticExpression expr;
-        Token tok = getLookaheadToken();
-        if (tok.getTokType() == TokenType.ID_TOK)
+        arithmetic_expression expr;
+        token tok = getLookaheadToken();
+        if (tok.getTokType() == tokentype.id)
             expr = getId();
-        else if (tok.getTokType() == TokenType.LITERAL_INTEGER_TOK)
+        else if (tok.getTokType() == tokentype.LITERAL_INTEGER_TOK)
             expr = getLiteralInteger();
         else
             expr = getBinaryExpression();
@@ -211,12 +211,12 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the grammar expression <arithmetic_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private BinaryExpression getBinaryExpression() throws ParserException
+    private Binary_expression getBinaryExpression() throws ParserException
     {
-        BinaryExpression.ArithmeticOperator op = getArithmeticOperator();
-        ArithmeticExpression expr1 = getArithmeticExpression();
-        ArithmeticExpression expr2 = getArithmeticExpression();
-        return new BinaryExpression (op, expr1, expr2);
+        Binary_expression.arithmetic_operator op = getArithmeticOperator();
+        arithmetic_expression expr1 = getArithmeticExpression();
+        arithmetic_expression expr2 = getArithmeticExpression();
+        return new Binary_expression (op, expr1, expr2);
     }
 
     /**
@@ -224,12 +224,12 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <arithmetic_op> → add_operator | sub_operator | mul_operator | div_operator
      */
-    private BinaryExpression.ArithmeticOperator getArithmeticOperator() throws ParserException
+    private Binary_expression.arithmetic_operator getArithmeticOperator() throws ParserException
     {
-        BinaryExpression.ArithmeticOperator op;
-        Token tok = getNextToken();
+        Binary_expression.ArithmeticOperator op;
+        token tok = getNextToken();
         if (tok.getTokType() == TokenType.ADD_TOK)
-            op = BinaryExpression.ArithmeticOperator.ADD_OP;
+            op = Binary_expression.arithmetic_operator.ADD_OP;
         else if (tok.getTokType() == TokenType.SUB_TOK)
             op = BinaryExpression.ArithmeticOperator.SUB_OP;
         else if (tok.getTokType() == TokenType.MUL_TOK)
