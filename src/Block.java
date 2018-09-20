@@ -13,7 +13,7 @@ public class Block{
         ar.add(statement);
     }
     public void process(){
-        Iterator<Statement> iterate = this.ar.iterator(); //TODO: Should this be Iter not Iterator for the Iter Class
+        Iterator<Statement> iterate = this.ar.iterator();
         while(iterate.hasNext()){
             iterate.next().evaluate();
         }
