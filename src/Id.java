@@ -1,7 +1,7 @@
 /**
  * Created by D. Tyla on 9/20/2018.
  */
-public class Id{
+public class Id implements arithmetic_expression{
     char id;
 
     public Id(char ltr){

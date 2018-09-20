@@ -159,7 +159,7 @@ public class LexicalAnalyzer {
         return tokens.remove(0);
     }
 
-    public boolean isValidIdentifier(char ch){
+    public static boolean isValidIdentifier(char ch){
         if(Character.isLetter(ch) && Character.isLowerCase(ch)) return true;
         else return false;
     }
