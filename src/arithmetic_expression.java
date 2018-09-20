@@ -4,8 +4,7 @@ public class arithmetic_expression {
 
     public char[] tokens;
 
-    public static int evaluate(String expr) {
-        char[] tokens = expr.toCharArray();
+          char[] tokens = expr.toCharArray();
 
         // Stack for numbers: 'values'
         Stack<Integer> values = new Stack<>();

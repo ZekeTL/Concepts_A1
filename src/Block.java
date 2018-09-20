@@ -5,6 +5,7 @@ import java.util.Iterator;
  */
 public class Block{
     ArrayList<Statement> ar;
+
     public Block(Statement statement){
         ar = new ArrayList<Statement>();
         ar.add(statement);
@@ -12,10 +13,11 @@ public class Block{
     public void add(Statement statement){
         ar.add(statement);
     }
+
     public void process(){
         Iterator<Statement> iterate = this.ar.iterator();
         while(iterate.hasNext()){
-            iterate.next().evaluate();
+            iterate.next().execute();
         }
     }
     public int size(){

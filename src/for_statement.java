@@ -1,7 +1,7 @@
 /**
  * Created by D. Tyla on 9/6/2018.
  */
-public class for_statement {
+public class for_statement implements Statement {
 
     private Iter it;
     private arithmetic_expression a_express;

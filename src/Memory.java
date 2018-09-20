@@ -29,6 +29,7 @@ public class Memory
 
     private static int getIndex (char ch)
     {
+       //TODO: FIX THIS!
         if (!LexicalAnalyzer.isValidIdentifier(ch))
             throw new IllegalArgumentException (ch + " is not a valid identifier");
         return ch - 'A';

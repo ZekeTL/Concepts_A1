@@ -26,9 +26,9 @@ public class if_statement implements Statement{
     @Override
     public void execute()
     {
-        if (b_expr.evaluate())
-            blk.execute();
+        if (b_expr.eval())
+            blk.process();
         else
-            blk2.execute();
+            blk2.process();
     }
 }

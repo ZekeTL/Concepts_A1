@@ -1,7 +1,7 @@
 /**
  * Created by D. Tyla on 9/6/2018.
  */
-public class while_statement {
+public class while_statement implements Statement{
 
 
     private Boolean_expression b_expr;
@@ -21,7 +21,7 @@ public class while_statement {
     @Override
     public void execute()
     {
-        while (b_expr.evaluate())
-            blk.execute();
+        while (b_expr.eval())
+            blk.process();
     }
 }
