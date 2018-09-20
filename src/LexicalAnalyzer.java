@@ -100,8 +100,8 @@ public class LexicalAnalyzer {
             tokType = tokentype.mul_operator;         //mul_operator → *
         else if (lexeme.equals("/"))
             tokType = tokentype.div_operator;         //div_operator → /
-        else if (lexeme.equals ("\"))
-            tokType = tokentype.rev_div_operator;     //rev_div_operator → \
+        /*else if (lexeme.equals ("\"))
+            tokType = tokentype.rev_div_operator;     //rev_div_operator → \ */
         else if (lexeme.equals ("="))
             tokType = tokentype.assignment_operator;   //assignment_operator → =
         else
