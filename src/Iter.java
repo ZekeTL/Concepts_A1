@@ -2,20 +2,33 @@ public class Iter {
 
     private int index = 0;
 
-    public iterate(Tokens tokens){
-        if(tokens == null){
+    public token getCurrent(token tokens[]){
+        if(tokens[0] == null){
             throw new IllegalArgumentException("List cannot be empty!");
         }
-        for (token:tokens){
-            //Do something
-        }
+        else return tokens[index];
     }
 
-    public getNext(Tokens tokens){
+    public token getLast(token tokens[]){
+        if(tokens[0] == null){
+            throw new IllegalArgumentException("List cannot be empty!");
+        }
+
+        index--;
+
         if(tokens[index] == null){
             throw new IndexOutOfBoundsException("Index does not exist!");
         }
-        return tokens[index];
+        else return tokens[index];
+    }
+
+    public token getNext(token tokens[]){
         index++;
+
+        if(tokens[index] == null){
+            throw new IndexOutOfBoundsException("Index does not exist!");
+        }
+
+        return tokens[index];
     }
 }
