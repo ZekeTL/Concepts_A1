@@ -1,23 +1,6 @@
-public class arithmetic_operator {
-    public static int operate(char op, int b, int a)
-    {
-        switch (op)
-        {
-            case '+':
-                return a + b;
-            case '-':
-                return a - b;
-            case '*':
-                return a * b;
-            case '/':
-                if (b == 0)
-                    throw new
-                            UnsupportedOperationException("Cannot divide by zero");
-                return a / b;
-        }
-        return 0;
-    }
+public enum arithmetic_operator {
+    a_operator, s_operator, m_operator, d_operator, mod
+
 }
 
 
-//TODO: This should look like the Relative_op class

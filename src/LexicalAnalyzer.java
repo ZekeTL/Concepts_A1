@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class LexicalAnalyzer {
 
-    private List<Token> tokens;
+    private List<token> tokens;
 
     public LexicalAnalyzer(String fileName) throws FileNotFoundException, LexicalException
     {
@@ -25,7 +25,7 @@ public class LexicalAnalyzer {
             processLine (line, lineNumber);
         }
         input.close();
-        tokens.add(new Token (tokentype.EOS_TOK, "EOS", lineNumber, 1));
+        tokens.add(new token (tokentype.EOS_TOK, "EOS", lineNumber, 1));
     }
 
     private void processLine(String line, int lineNumber) throws LexicalException
@@ -38,18 +38,18 @@ public class LexicalAnalyzer {
         while (index < line.length())
         {
             String lexeme = getLexeme (line, index);
-            tokentype tokType = getTokenType (lexeme, lineNumber, index + 1);
+            tokentype tokType = gettokenType (lexeme, lineNumber, index + 1);
             tokens.add(new token (tokType, lexeme, lineNumber, index + 1));
             index += lexeme.length();
             index = skipWhiteSpace(line, index);
         }
     }
 
-    private tokentype getTokenType()
+    private tokentype gettokenType()
     {
         if (lexeme == null || lexeme.length() == 0)
             throw new IllegalArgumentException ("invalid string argument");
-        tokentype tokType = TokenType.EOS_TOK;
+        tokentype tokType = tokenType.EOS_TOK;
         if (Character.isDigit(lexeme.charAt(0)))
             if (allDigits (lexeme))
                 tokType = tokentype.LITERAL_INTEGER_TOK;
@@ -145,14 +145,14 @@ public class LexicalAnalyzer {
         return index;
     }
 
-    public token getNextToken() throws LexicalException
+    public token getNexttoken() throws LexicalException
     {
         if (tokenList.isEmpty())
             throw new LexicalException ("no more tokens");
         return tokenList.get(0);
     }
 
-    public token removeNextToken() throws LexicalException
+    public token removeNexttoken() throws LexicalException
     {
         if (tokens.isEmpty())
             throw new LexicalException ("There aren't any more tokens");
