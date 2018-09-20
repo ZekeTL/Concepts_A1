@@ -14,7 +14,10 @@ public class Print_statement implements Statement
 
     }
     @Override
-    public void print(){
-        System.out.println(p_stat);  //TODO: What is p_stat? Should this be expr.evaluate() in the print statement?
+    public void execute()
+    {
+        System.out.println (expr.evaluate());
+
     }
+
 }

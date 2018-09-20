@@ -14,7 +14,7 @@ public class Binary_expression {
     }
 
     @Override
-    public int evaluate()
+    public int execute()
     {
         int value;
         if (op == arithmetic_operator.add_operator)

@@ -71,16 +71,16 @@ public class Parser
     private Statement getStatement() throws ParserException
     {
         Statement stmt;
-        Token tok = getLookaheadToken();
-        if (tok.getTokType() == TokenType.IF_TOK)
+        token tok = getLookaheadToken();
+        if (tok.getTokType() == tokentype.if_tok)
             stmt = getIfStatement();
-        else if (tok.getTokType() == TokenType.WHILE_TOK)
+        else if (tok.getTokType() == tokentype.while_tok)
             stmt = getWhileStatement();
-        else if (tok.getTokType() == TokenType.PRINT_TOK)
+        else if (tok.getTokType() == tokentype.print_tok)
             stmt = getPrintStatement();
-        else if (tok.getTokType() == TokenType.REPEAT_TOK)
+        else if (tok.getTokType() == tokentype.for_tok)
             stmt = getRepeatStatement();
-        else if (tok.getTokType() == TokenType.ID_TOK)
+        else if (tok.getTokType() == tokentype.id)
             stmt = getAssignmentStatement();
         else
             throw new ParserException ("invalid statement at row " +
@@ -96,10 +96,10 @@ public class Parser
     private Statement getAssignmentStatement() throws ParserException
     {
         Id var = getId();
-        Token tok = getNextToken();
-        match (tok, TokenType.ASSIGN_TOK);
-        ArithmeticExpression expr = getArithmeticExpression();
-        return new AssignmentStatement (var, expr);
+        token tok = getNextToken();
+        match (tok, tokentype.assignment_operator);
+        arithmetic_expression expr = getArithmeticExpression();
+        return new assignment_statement(var, expr);
     }
 
     /**
@@ -109,12 +109,12 @@ public class Parser
      */
     private Statement getRepeatStatement() throws ParserException
     {
-        Token tok = getNextToken();
-        match (tok, TokenType.REPEAT_TOK);
+        token tok = getNextToken();
+        match (tok, tokentype.REPEAT_TOK);
         Block blk = getBlock();
         tok = getNextToken();
-        match (tok, TokenType.UNTIL_TOK);
-        BooleanExpression expr = getBooleanExpression();
+        match (tok, tokenTtype.UNTIL_TOK);
+        Boolean_expression expr = getBooleanExpression();
         return new RepeatStatement (blk, expr);
     }
 
@@ -125,13 +125,13 @@ public class Parser
      */
     private Statement getPrintStatement() throws ParserException
     {
-        Token tok = getNextToken();
-        match (tok, TokenType.PRINT_TOK);
+        token tok = getNextToken();
+        match (tok, tokentype.print_tok);
         tok = getNextToken ();
-        match (tok, TokenType.LEFT_PAREN_TOK);
-        ArithmeticExpression expr = getArithmeticExpression();
+        match (tok, tokentype.LEFT_PAREN_TOK);
+        arithmetic_expression expr = getArithmeticExpression();
         tok = getNextToken ();
-        match (tok, TokenType.RIGHT_PAREN_TOK);
+        match (tok, tokentype.RIGHT_PAREN_TOK);
         return new PrintStatement (expr);
     }
 

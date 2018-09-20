@@ -1,23 +1,28 @@
 /**
  * Created by D. Tyla on 9/6/2018.
  */
-public class assignment_statement {
+public class assignment_statement implements Statement{
 
     private arithmetic_expression a_express;
-    private assignment_operator a_op;
-    //TODO: Id var;
+    Id var;
 
-    public assignment_statement(arithmetic_expression a_express, assignment_operator a_op)
+    public assignment_statement(Id var, arithmetic_expression a_express)
     {
         if (a_express == null)
             throw new IllegalArgumentException ("null Expression");
 
         //TODO:should I check the assignment operator or something?
-
+        this.var = var;
         this.a_express = a_express;
 
     }
 
-    //TODO: do anything else?
+    @Override
+    public void execute()
+    {
+        Memory.store (var.getId(), a_express.evaluate());
+    }
 
 }
+
+
