@@ -1,7 +1,7 @@
 /**
  * Created by D. Tyla on 9/6/2018.
  */
-public class if_statement {
+public class if_statement implements Statement{
 
 
     private Boolean_expression b_expr;

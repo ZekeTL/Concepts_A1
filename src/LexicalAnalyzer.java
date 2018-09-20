@@ -145,7 +145,7 @@ public class LexicalAnalyzer {
         return index;
     }
 
-    public token getNexttoken() throws LexicalException
+    public token getNextToken() throws LexicalException
     {
         if (tokenList.isEmpty())
             throw new LexicalException ("no more tokens");

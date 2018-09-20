@@ -230,7 +230,7 @@ public class Parser
         token tok = getNextToken();
         if (tok.getTokType() == TokenType.ADD_TOK)
             op = Binary_expression.arithmetic_operator.ADD_OP;
-        else if (tok.getTokType() == TokenType.SUB_TOK)
+        else if (tok.getTokType() == tokentype.SUB_TOK)
             op = BinaryExpression.ArithmeticOperator.SUB_OP;
         else if (tok.getTokType() == TokenType.MUL_TOK)
             op = BinaryExpression.ArithmeticOperator.MUL_OP;
@@ -262,7 +262,7 @@ public class Parser
      */
     private Id getId() throws ParserException
     {
-        Token tok = getNextToken();
+        token tok = getNextToken();
         if (tok.getTokType() != TokenType.ID_TOK)
             throw new ParserException ("identifier expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
@@ -327,9 +327,9 @@ public class Parser
      * @return copy of next token
      * @throws ParserException if there are no more tokens
      */
-    private Token getLookaheadToken() throws ParserException
+    private token getNextToken() throws ParserException
     {
-        Token tok = null;
+        token tok = null;
         try
         {
             tok = lex.getLookaheadToken();
@@ -345,9 +345,9 @@ public class Parser
      * @return next token
      * @throws ParserException if there are no more tokens
      */
-    private Token getNextToken() throws ParserException
+    private token removeNextToken() throws ParserException
     {
-        Token tok = null;
+        token tok = null;
         try
         {
             tok = lex.getNextToken();
