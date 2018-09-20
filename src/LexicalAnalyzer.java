@@ -45,14 +45,14 @@ public class LexicalAnalyzer {
         }
     }
 
-    private tokentype gettokenType()
+    private tokentype gettokenType(String lexeme, int rowNumber, int columnNumber) throws LexicalException
     {
         if (lexeme == null || lexeme.length() == 0)
             throw new IllegalArgumentException ("invalid string argument");
-        tokentype tokType = tokenType.EOS_TOK;
+        tokentype tokType = tokentype.EOS_TOK;
         if (Character.isDigit(lexeme.charAt(0)))
             if (allDigits (lexeme))
-                tokType = tokentype.LITERAL_INTEGER_TOK;
+                tokType = tokentype.literal_integer;
             else
                 throw new LexicalException ("literal integer expecated "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
@@ -76,6 +76,8 @@ public class LexicalAnalyzer {
                 throw new LexicalException ("invalid lexeme "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
         }
+        else if(isValidIdentifer(lexeme))
+            tokType = tokentype.id;                  //id → letter
         else if (lexeme.equals(">="))
             tokType = tokentype.ge_operator;        //ge_operator → >=
         else if (lexeme.equals(">"))
@@ -110,9 +112,7 @@ public class LexicalAnalyzer {
         return tokType;
 
         //TODO: Finish this list
-        //id → letter
         //literal_integer → digit literal_integer | digit
-        //rev_div_operator → \
 
     }
 
@@ -145,11 +145,11 @@ public class LexicalAnalyzer {
         return index;
     }
 
-    public token getNextToken() throws LexicalException
+    public token getNextToken() throws LexicalException //looking ahead
     {
-        if (tokenList.isEmpty())
+        if (tokens.isEmpty())
             throw new LexicalException ("no more tokens");
-        return tokenList.get(0);
+        return tokens.get(0);
     }
 
     public token removeNexttoken() throws LexicalException
