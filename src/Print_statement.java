@@ -6,7 +6,7 @@ public class Print_statement implements Statement
 
     private arithmetic_expression expr;
 
-    public print_statement(arithmetic_expression expr){
+    public Print_statement(arithmetic_expression expr){
         if(expr == null){
             throw new IllegalArgumentException("Expression cannot be empty");
         }

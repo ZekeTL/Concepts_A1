@@ -1,7 +1,7 @@
 /**
  * Created by D. Tyla on 9/20/2018.
  */
-public class Id{
+public class Id implements arithmetic_expression{
 
     private char id;
 
@@ -16,7 +16,7 @@ public class Id{
         return Memory.fetch (id);
     }
 
-    public char getId ()
+    public char getChar ()
     {
         return id;
     }

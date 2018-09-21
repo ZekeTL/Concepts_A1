@@ -6,8 +6,10 @@ import java.util.Iterator;
 public class Block{
     ArrayList<Statement> ar;
 
+    public Block()
+    { ar = new ArrayList<Statement>(); }
+
     public Block(Statement statement){
-        ar = new ArrayList<Statement>();
         ar.add(statement);
     }
     public void add(Statement statement){

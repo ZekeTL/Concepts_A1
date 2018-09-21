@@ -17,7 +17,7 @@ public class Program {
 
     public void execute ()
     {
-        blk.execute();
+        blk.process();
     }
 
 }

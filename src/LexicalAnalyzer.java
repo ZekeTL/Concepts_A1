@@ -106,6 +106,10 @@ public class LexicalAnalyzer {
             tokType = tokentype.rev_div_operator;     //rev_div_operator → \ */
         else if (lexeme.equals ("="))
             tokType = tokentype.assignment_operator;   //assignment_operator → =
+        else if (lexeme.equals("("))
+            tokType = tokentype.right_paren;
+        else if (lexeme.equals(")"))
+            tokType = tokentype.left_paren;
         else
             throw new LexicalException ("invalid lexeme "+ " at row " +
                     rowNumber  + " and column " + columnNumber);

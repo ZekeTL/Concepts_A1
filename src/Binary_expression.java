@@ -1,4 +1,4 @@
-public class Binary_expression {
+public class Binary_expression implements arithmetic_expression{
 
     private arithmetic_expression expr1, expr2;
 
@@ -14,7 +14,7 @@ public class Binary_expression {
     }
 
     @Override
-    public int execute()
+    public int evaluate()
     {
         int value;
         if (op == arithmetic_operator.add_operator)

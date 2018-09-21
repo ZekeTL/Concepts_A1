@@ -1,8 +1,6 @@
-import java.util.Stack;
+public interface arithmetic_expression {
 
-public class arithmetic_expression {
-
-    private Id id;
+    /*private Id id;
     private int val;
     private String op;
 
@@ -45,6 +43,8 @@ public class arithmetic_expression {
             return expr1.evaluate() - expr2.evaluate();
         else
             throw new IllegalArgumentException("Invalid operator, You entered " + op);
-    }
+    }*/
+
+    public int evaluate();
 
 }

@@ -21,22 +21,22 @@ public class Boolean_expression {
         switch (op)
         {
             case eq_operator:
-                result = expr1.evaluate(expr1.getString()) == expr2.evaluate(expr2.getString());
+                result = expr1.evaluate() == expr2.evaluate();
                 break;
             case ne_operator:
-                result = expr1.evaluate(expr1.getString()) != expr2.evaluate(expr2.getString());
+                result = expr1.evaluate() != expr2.evaluate();
                 break;
             case lt_operator:
-                result = expr1.evaluate(expr1.getString()) < expr2.evaluate(expr2.getString());
+                result = expr1.evaluate() < expr2.evaluate();
                 break;
             case le_operator:
-                result = expr1.evaluate(expr1.getString()) <= expr2.evaluate(expr2.getString());
+                result = expr1.evaluate() <= expr2.evaluate();
                 break;
             case gt_operator:
-                result = expr1.evaluate(expr1.getString()) > expr2.evaluate(expr2.getString());
+                result = expr1.evaluate() > expr2.evaluate();
                 break;
             case ge_operator:
-                result = expr1.evaluate(expr1.getString()) >= expr2.evaluate(expr2.getString());
+                result = expr1.evaluate() >= expr2.evaluate();
                 break;
         }
         return result;
