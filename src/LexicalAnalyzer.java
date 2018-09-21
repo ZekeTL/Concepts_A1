@@ -52,7 +52,7 @@ public class LexicalAnalyzer {
         tokentype tokType = tokentype.EOS_TOK;
         if (Character.isDigit(lexeme.charAt(0)))
             if (allDigits (lexeme))
-                tokType = tokentype.literal_integer;
+                tokType = tokentype.literal_integer;  //literal_integer → digit literal_integer | digit
             else
                 throw new LexicalException ("literal integer expecated "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
@@ -111,8 +111,7 @@ public class LexicalAnalyzer {
                     rowNumber  + " and column " + columnNumber);
         return tokType;
 
-        //TODO: Finish this list
-        //literal_integer → digit literal_integer | digit
+
 
     }
 

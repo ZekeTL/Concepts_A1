@@ -38,7 +38,7 @@ public class Parser
         tok = getNextToken ();
         match (tok, tokentype.LEFT_PAREN_TOK);
         tok = getNextToken ();
-        match (tok, TokenType.RIGHT_PAREN_TOK);
+        match (tok, tokentype.RIGHT_PAREN_TOK);
         Block blk = getBlock();
         tok = getNextToken ();
         match (tok, tokentype.end_tok);
@@ -82,7 +82,7 @@ public class Parser
         else if (tok.getTokType() == tokentype.print_tok)
             stmt = getPrintStatement();
         else if (tok.getTokType() == tokentype.for_tok)
-            stmt = getRepeatStatement();
+            stmt = getForStatement();
         else if (tok.getTokType() == tokentype.id)
             stmt = getAssignmentStatement();
         else
@@ -110,7 +110,7 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <repeat_statement> -> repeat <block> until <boolean_expression>
      */
-    private Statement geForStatement() throws ParserException
+    private Statement getForStatement() throws ParserException
     {
         token tok = getNextToken();
         match (tok, tokentype.for_tok);
