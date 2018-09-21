@@ -12,6 +12,7 @@ public class Block{
     public Block(Statement statement){
         ar.add(statement);
     }
+
     public void add(Statement statement){
         ar.add(statement);
     }

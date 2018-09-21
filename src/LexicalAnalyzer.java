@@ -54,13 +54,13 @@ public class LexicalAnalyzer {
             if (allDigits (lexeme))
                 tokType = tokentype.literal_integer;  //literal_integer → digit literal_integer | digit
             else
-                throw new LexicalException ("literal integer expecated "+ " at row " +
+                throw new LexicalException ("literal integer expected "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
         else if (Character.isLetter(lexeme.charAt(0)))
         {
-            /*if (lexeme.length() == 1)
-                tokType = tokentype.ID_TOK;*/
-            if (lexeme.equals("function"))
+            if (lexeme.length() == 1 && isValidIdentifier(lexeme.charAt(0)))
+                tokType = tokentype.id;
+            else if(lexeme.equals("function"))
                 tokType = tokentype.function_tok;
             else if (lexeme.equals("end"))
                 tokType = tokentype.end_tok;
@@ -107,9 +107,9 @@ public class LexicalAnalyzer {
         else if (lexeme.equals ("="))
             tokType = tokentype.assignment_operator;   //assignment_operator → =
         else if (lexeme.equals("("))
-            tokType = tokentype.right_paren;
-        else if (lexeme.equals(")"))
             tokType = tokentype.left_paren;
+        else if (lexeme.equals(")"))
+            tokType = tokentype.right_paren;
         else
             throw new LexicalException ("invalid lexeme "+ " at row " +
                     rowNumber  + " and column " + columnNumber);

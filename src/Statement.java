@@ -9,6 +9,6 @@ public interface Statement {
     //private while_statement w_stat;
     //private Print_statement p_stat;
 
-    void execute();
+    public void execute();
 
 }

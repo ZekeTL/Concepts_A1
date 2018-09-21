@@ -20,7 +20,7 @@ public class assignment_statement implements Statement{
     @Override
     public void execute()
     {
-        Memory.store (var.getId(), a_express.evaluate());
+        Memory.store (var.getChar(), a_express.evaluate());
     }
 
 }
