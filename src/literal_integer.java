@@ -9,7 +9,7 @@ public class literal_integer implements arithmetic_expression{
     {
         this.value = value;
     }
-    @Override
+    //@Override
     public int evaluate()
     {
         return value;

@@ -27,7 +27,7 @@ public interface arithmetic_expression {
         if(id == null && op.equals(""))
             return this.val;
         else if(op.equals(""))
-            return Memory.fetch(id.getId());
+            return Memory.fetch(id.getChar());
         else
             return this.calculate();
     }
@@ -45,6 +45,6 @@ public interface arithmetic_expression {
             throw new IllegalArgumentException("Invalid operator, You entered " + op);
     }*/
 
-    public int evaluate();
+   public int evaluate();
 
 }
