@@ -31,11 +31,8 @@ public class Memory
     {
         if (!LexicalAnalyzer.isValidIdentifier(ch))
             throw new IllegalArgumentException (ch + " is not a valid identifier");
-<<<<<<< Updated upstream
         return ch - 97;
-=======
-        return ch-97;
->>>>>>> Stashed changes
+
     }
 
     public static void displayMemory()

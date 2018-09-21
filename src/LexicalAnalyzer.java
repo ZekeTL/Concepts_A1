@@ -15,7 +15,7 @@ public class LexicalAnalyzer {
     {
         if (fileName == null)
             throw new IllegalArgumentException ("null file name argument");
-        tokens = new ArrayList<token>();
+        tokens = new ArrayList<>();
         Scanner input = new Scanner (new File(fileName));
         int lineNumber = 0;
         while (input.hasNext())
@@ -38,14 +38,14 @@ public class LexicalAnalyzer {
         while (index < line.length())
         {
             String lexeme = getLexeme (line, index);
-            tokentype tokType = gettokenType (lexeme, lineNumber, index + 1);
+            tokentype tokType = getTokenType (lexeme, lineNumber, index + 1);
             tokens.add(new token (tokType, lexeme, lineNumber, index + 1));
             index += lexeme.length();
             index = skipWhiteSpace(line, index);
         }
     }
 
-    private tokentype gettokenType(String lexeme, int rowNumber, int columnNumber) throws LexicalException
+    private tokentype getTokenType(String lexeme, int rowNumber, int columnNumber) throws LexicalException
     {
         if (lexeme == null || lexeme.length() == 0)
             throw new IllegalArgumentException ("invalid string argument");
@@ -60,7 +60,7 @@ public class LexicalAnalyzer {
         {
             /*if (lexeme.length() == 1)
                 tokType = tokentype.ID_TOK;*/
-            else if (lexeme.equals("function"))
+            if (lexeme.equals("function"))
                 tokType = tokentype.function_tok;
             else if (lexeme.equals("end"))
                 tokType = tokentype.end_tok;
@@ -76,7 +76,7 @@ public class LexicalAnalyzer {
                 throw new LexicalException ("invalid lexeme "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
         }
-        else if(isValidIdentifer(lexeme))
+        else if(isValidIdentifier(lexeme.charAt(0)))
             tokType = tokentype.id;                  //id → letter
         else if (lexeme.equals(">="))
             tokType = tokentype.ge_operator;        //ge_operator → >=
@@ -116,7 +116,7 @@ public class LexicalAnalyzer {
 
     }
 
-    private boolean digits(String lexeme)
+    private boolean allDigits(String lexeme)
     {
         if (lexeme == null)
             throw new IllegalArgumentException ("null string argument");

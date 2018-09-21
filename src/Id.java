@@ -1,8 +1,9 @@
 /**
  * Created by D. Tyla on 9/20/2018.
  */
-public class Id implements arithmetic_expression{
-    char id;
+public class Id{
+
+    private char id;
 
     public Id(char ltr){
         if (!LexicalAnalyzer.isValidIdentifier(ltr))
@@ -10,7 +11,6 @@ public class Id implements arithmetic_expression{
         this.id=ltr;
     }
 
-    @Override
     public int evaluate()
     {
         return Memory.fetch (id);
