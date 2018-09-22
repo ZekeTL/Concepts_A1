@@ -44,7 +44,6 @@ public interface arithmetic_expression {
         else
             throw new IllegalArgumentException("Invalid operator, You entered " + op);
     }*/
-
-   public int evaluate();
+    int evaluate();
 
 }

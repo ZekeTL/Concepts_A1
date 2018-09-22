@@ -3,18 +3,21 @@
  */
 public class for_statement implements Statement {
 
-    private Iter it;
-    private token tokens[];
-    private arithmetic_expression a_express;
+    private assignment_statement stat;
+    private Boolean_expression bool;
+    private Block blk;
 
-    public for_statement(Iter it, arithmetic_expression a_express)
+    public for_statement(assignment_statement stat, Boolean_expression bool, Block blk)
     {
-        if (it == null)
-            throw new IllegalArgumentException ("null iteration");
-        if (a_express == null)
-            throw new IllegalArgumentException ("null arithmetic expression");
-        this.it = it;
-        this.a_express = a_express;
+        if (stat == null)
+            throw new IllegalArgumentException ("null assignment statement");
+        else if (bool == null)
+            throw new IllegalArgumentException ("null boolean expression");
+        else if (blk == null)
+            throw new IllegalArgumentException("null black");
+        this.stat = stat;
+        this.bool = bool;
+        this.blk = blk;
 
     }
 
@@ -22,10 +25,9 @@ public class for_statement implements Statement {
 
     @Override
     public void execute() {
-        int index = 0;
-        while(it.getNext(index,tokens) != null){
-            a_express.evaluate();
-            index++;
+        stat.execute();
+        while(bool.eval()){
+            blk.process();
         }
     }
 }

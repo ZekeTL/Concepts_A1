@@ -48,7 +48,7 @@ public class token {
     }
 
     public String toString(){
-        return "Line Number:" +this.getRowNumber()+ "Lexeme Value:" + this.getLexeme() + "Token Type:" + this.getTokType();
+        return "Line Number: " +this.getRowNumber()+ "Lexeme Value: " + this.getLexeme() + " Token Type:" + this.getTokType();
     }
 
 }

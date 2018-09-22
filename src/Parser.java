@@ -38,9 +38,9 @@ public class Parser
         //match(tok,tokentype.id);
         Id functionName = getId();
         tok = removeNextToken ();
-        match (tok, tokentype.left_paren);
+        match (tok, tokentype.left_parent);
         tok = removeNextToken ();
-        match (tok, tokentype.right_paren);
+        match (tok, tokentype.right_parent);
         Block blk = getBlock();
         tok = removeNextToken ();
         match (tok, tokentype.end_tok);
@@ -133,10 +133,10 @@ public class Parser
         token tok = removeNextToken();
         match (tok, tokentype.print_tok);
         tok = getNextToken ();
-        match (tok, tokentype.left_paren);
+        match (tok, tokentype.left_parent);
         arithmetic_expression expr = getArithmeticExpression();
         tok = getNextToken ();
-        match (tok, tokentype.right_paren);
+        match (tok, tokentype.right_parent);
         return new Print_statement (expr);
     }
 
