@@ -13,14 +13,18 @@ public class Binary_expression implements arithmetic_expression{
         this.op = op;
     }
 
-    //@Override
+    @Override
     public int evaluate()
     {
-        int value;
+        int value = 0;
         if (op == arithmetic_operator.add_operator)
             value = expr1.evaluate() + expr2.evaluate();
-        else
+        else if (op == arithmetic_operator.mul_operator)
             value = expr1.evaluate() * expr2.evaluate();
+        else if (op == arithmetic_operator.div_operator)
+            value = expr1.evaluate() / expr2.evaluate();
+        else if (op == arithmetic_operator.sub_operator)
+            value = expr1.evaluate() - expr2.evaluate();
         return value;
     }
 }

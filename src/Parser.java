@@ -34,8 +34,10 @@ public class Parser
     {
         token tok = removeNextToken();
         match (tok, tokentype.function_tok);
+
         //tok = getNextToken();
         //match(tok,tokentype.id);
+
         Id functionName = getId();
         tok = removeNextToken ();
         match (tok, tokentype.left_parent);
@@ -83,8 +85,10 @@ public class Parser
             stmt = getWhileStatement();
         else if (tok.getTokType() == tokentype.print_tok)
             stmt = getPrintStatement();
+
         /*else if (tok.getTokType() == tokentype.for_tok)
             stmt = getForStatement();*/
+
         else if (tok.getTokType() == tokentype.id)
             stmt = getAssignmentStatement();
         else
@@ -112,6 +116,7 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <repeat_statement> -> repeat <block> until <boolean_expression>
      */
+
    /* private Statement getForStatement() throws ParserException
     {
         token tok = removeNextToken();
