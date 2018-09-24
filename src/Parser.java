@@ -142,15 +142,19 @@ public class Parser
     {
         token tok = getNextToken ();
         match (tok, tokentype.for_tok);
-        Statement stat = getAssignmentStatement();
-        Boolean_expression expr = getBooleanExpression();
+        //Statement stat = getAssignmentStatement();
+        //Boolean_expression expr = getBooleanExpression();
         //tok = getNextToken ();
         //match (tok, tokentype.colon_tok);
         //TODO
         Block blk = getBlock();
         tok = getNextToken();
+        tok = getNextToken ();
+        match (tok, tokentype.colon_tok);
+        Boolean_expression expr = getBooleanExpression();
+
         match (tok, tokentype.end_tok);
-        return new for_statement (stat, expr, blk);
+        return new for_statement (expr, blk);
     }
 
     /**
