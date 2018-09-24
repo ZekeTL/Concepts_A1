@@ -3,11 +3,11 @@
  */
 public class for_statement implements Statement {
 
-    private assignment_statement stat;
+    private Statement stat;
     private Boolean_expression bool;
     private Block blk;
 
-    public for_statement(assignment_statement stat, Boolean_expression bool, Block blk)
+    public for_statement(Statement stat, Boolean_expression bool, Block blk)
     {
         if (stat == null)
             throw new IllegalArgumentException ("null assignment statement");
