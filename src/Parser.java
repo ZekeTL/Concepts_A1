@@ -142,6 +142,7 @@ public class Parser
     {
         token tok = getNextToken ();
         match (tok, tokentype.for_tok);
+        assignment_statement stat = null;
         Boolean_expression expr = getBooleanExpression();
         //tok = getNextToken ();
         //match (tok, tokentype.);

@@ -29,11 +29,11 @@ public class Interpreter {
         {
             System.out.println ("The source file is not found");
         }
-        /*catch (Exception e)
+        catch (Exception e)
         {
             System.out.println ("An Unknown Error has occurred");
         }
-        */
+
     }
 
 
