@@ -1,13 +1,10 @@
-/**
- * Created by D. Tyla on 9/20/2018.
- */
 import java.io.FileNotFoundException;
 
 /**
  * @author dgayler
  *
  * Parser class implements a recursive descent parsing algorithm
- * Julia language
+ * for the given grammar of a subset of Lua
  */
 public class Parser
 {
@@ -30,22 +27,20 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <program> → function id ( ) <block> end
      */
-    public Program parse() throws ParserException
+    public Program parse () throws ParserException
     {
-        token tok = removeNextToken();
-        match (tok, tokentype.function_tok);
-        //tok = getNextToken();
-        //match(tok,tokentype.id);
+        Token tok = getNextToken();
+        match (tok, TokenType.FUNCTION_TOK);
         Id functionName = getId();
-        tok = removeNextToken ();
-        match (tok, tokentype.left_parent);
-        tok = removeNextToken ();
-        match (tok, tokentype.right_parent);
+        tok = getNextToken ();
+        match (tok, TokenType.LEFT_PAREN_TOK);
+        tok = getNextToken ();
+        match (tok, TokenType.RIGHT_PAREN_TOK);
         Block blk = getBlock();
-        tok = removeNextToken ();
-        match (tok, tokentype.end_tok);
-        tok = removeNextToken ();
-        if (tok.getTokType() != tokentype.EOS_TOK)
+        tok = getNextToken ();
+        match (tok, TokenType.END_TOK);
+        tok = getNextToken();
+        if (tok.getTokType() != TokenType.EOS_TOK)
             throw new ParserException ("garbage at end of file");
         return new Program (blk);
     }
@@ -58,12 +53,12 @@ public class Parser
     private Block getBlock() throws ParserException
     {
         Block blk = new Block();
-        token tok = getNextToken(); //looking ahead
+        Token tok = getLookaheadToken();
         while (isValidStartOfStatement (tok))
         {
             Statement stmt = getStatement();
             blk.add (stmt);
-            tok = getNextToken(); //looking ahead
+            tok = getLookaheadToken();
         }
         return blk;
     }
@@ -76,18 +71,16 @@ public class Parser
     private Statement getStatement() throws ParserException
     {
         Statement stmt;
-        token tok = getNextToken(); //looking ahead
-        if (tok.getTokType() == tokentype.if_tok)
+        Token tok = getLookaheadToken();
+        if (tok.getTokType() == TokenType.IF_TOK)
             stmt = getIfStatement();
-        else if (tok.getTokType() == tokentype.while_tok)
+        else if (tok.getTokType() == TokenType.WHILE_TOK)
             stmt = getWhileStatement();
-        else if (tok.getTokType() == tokentype.print_tok)
+        else if (tok.getTokType() == TokenType.PRINT_TOK)
             stmt = getPrintStatement();
-
-        /*else if (tok.getTokType() == tokentype.for_tok)
-            stmt = getForStatement();*/
-
-        else if (tok.getTokType() == tokentype.id)
+        else if (tok.getTokType() == TokenType.REPEAT_TOK)
+            stmt = getRepeatStatement();
+        else if (tok.getTokType() == TokenType.ID_TOK)
             stmt = getAssignmentStatement();
         else
             throw new ParserException ("invalid statement at row " +
@@ -103,10 +96,10 @@ public class Parser
     private Statement getAssignmentStatement() throws ParserException
     {
         Id var = getId();
-        token tok = removeNextToken();
-        match (tok, tokentype.assignment_operator);
-        arithmetic_expression expr = getArithmeticExpression();
-        return new assignment_statement(var, expr);
+        Token tok = getNextToken();
+        match (tok, TokenType.ASSIGN_TOK);
+        ArithmeticExpression expr = getArithmeticExpression();
+        return new AssignmentStatement (var, expr);
     }
 
     /**
@@ -114,17 +107,16 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <repeat_statement> -> repeat <block> until <boolean_expression>
      */
-
-   /* private Statement getForStatement() throws ParserException
+    private Statement getRepeatStatement() throws ParserException
     {
-        token tok = removeNextToken();
-        match (tok, tokentype.for_tok);
-        //Block blk = getBlock();
-        Iter iter = null; //TODO??
+        Token tok = getNextToken();
+        match (tok, TokenType.REPEAT_TOK);
+        Block blk = getBlock();
         tok = getNextToken();
-        Boolean_expression expr = getBooleanExpression();
-        return new for_statement (iter, expr);
-    }*/
+        match (tok, TokenType.UNTIL_TOK);
+        BooleanExpression expr = getBooleanExpression();
+        return new RepeatStatement (blk, expr);
+    }
 
     /**
      * @return print statement
@@ -133,14 +125,14 @@ public class Parser
      */
     private Statement getPrintStatement() throws ParserException
     {
-        token tok = removeNextToken();
-        match (tok, tokentype.print_tok);
-        tok = removeNextToken();
-        match (tok, tokentype.left_parent);
-        arithmetic_expression expr = getArithmeticExpression();
-        tok = removeNextToken();
-        match (tok, tokentype.right_parent);
-        return new Print_statement (expr);
+        Token tok = getNextToken();
+        match (tok, TokenType.PRINT_TOK);
+        tok = getNextToken ();
+        match (tok, TokenType.LEFT_PAREN_TOK);
+        ArithmeticExpression expr = getArithmeticExpression();
+        tok = getNextToken ();
+        match (tok, TokenType.RIGHT_PAREN_TOK);
+        return new PrintStatement (expr);
     }
 
     /**
@@ -150,13 +142,15 @@ public class Parser
      */
     private Statement getWhileStatement() throws ParserException
     {
-        token tok = removeNextToken ();
-        match (tok, tokentype.while_tok);
-        Boolean_expression expr = getBooleanExpression();
+        Token tok = getNextToken ();
+        match (tok, TokenType.WHILE_TOK);
+        BooleanExpression expr = getBooleanExpression();
+        tok = getNextToken ();
+        match (tok, TokenType.DO_TOK);
         Block blk = getBlock();
-        tok = removeNextToken();
-        match (tok, tokentype.end_tok);
-        return new while_statement (expr, blk);
+        tok = getNextToken();
+        match (tok, TokenType.END_TOK);
+        return new WhileStatement (expr, blk);
     }
 
     /**
@@ -166,30 +160,32 @@ public class Parser
      */
     private Statement getIfStatement() throws ParserException
     {
-        token tok = removeNextToken ();
-        match (tok, tokentype.if_tok);
-        Boolean_expression expr = getBooleanExpression();
+        Token tok = getNextToken ();
+        match (tok, TokenType.IF_TOK);
+        BooleanExpression expr = getBooleanExpression();
+        tok = getNextToken ();
+        match (tok, TokenType.THEN_TOK);
         Block blk1 = getBlock();
-        tok = removeNextToken ();
-        match (tok, tokentype.else_tok);
+        tok = getNextToken ();
+        match (tok, TokenType.ELSE_TOK);
         Block blk2 = getBlock();
-        tok = removeNextToken();
-        match (tok, tokentype.end_tok);
-        return new if_statement(expr, blk1, blk2);
+        tok = getNextToken();
+        match (tok, TokenType.END_TOK);
+        return new IfStatement (expr, blk1, blk2);
     }
 
     /**
      * @param tok cannot be null - checked with assertion
      * @return whether tok can be the start of a statement
      */
-    private boolean isValidStartOfStatement(token tok)
+    private boolean isValidStartOfStatement(Token tok)
     {
         assert (tok != null);
-        return tok.getTokType() == tokentype.id ||
-                tok.getTokType() == tokentype.if_tok||
-                tok.getTokType() == tokentype.while_tok ||
-                tok.getTokType() == tokentype.print_tok||
-                tok.getTokType() == tokentype.for_tok;
+        return tok.getTokType() == TokenType.ID_TOK ||
+                tok.getTokType() == TokenType.IF_TOK ||
+                tok.getTokType() == TokenType.WHILE_TOK ||
+                tok.getTokType() == TokenType.PRINT_TOK ||
+                tok.getTokType() == TokenType.REPEAT_TOK;
     }
 
     /**
@@ -197,13 +193,13 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <arithmetic_expression> → <id> | <literal_integer> | <arithmetic_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private arithmetic_expression getArithmeticExpression() throws ParserException
+    private ArithmeticExpression getArithmeticExpression() throws ParserException
     {
-        arithmetic_expression expr;
-        token tok = getNextToken(); //looking ahead
-        if (tok.getTokType() == tokentype.id)
+        ArithmeticExpression expr;
+        Token tok = getLookaheadToken();
+        if (tok.getTokType() == TokenType.ID_TOK)
             expr = getId();
-        else if (tok.getTokType() == tokentype.literal_integer)
+        else if (tok.getTokType() == TokenType.LITERAL_INTEGER_TOK)
             expr = getLiteralInteger();
         else
             expr = getBinaryExpression();
@@ -215,12 +211,12 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the grammar expression <arithmetic_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private Binary_expression getBinaryExpression() throws ParserException
+    private BinaryExpression getBinaryExpression() throws ParserException
     {
-        arithmetic_operator op = getArithmeticOperator();
-        arithmetic_expression expr1 = getArithmeticExpression();
-        arithmetic_expression expr2 = getArithmeticExpression();
-        return new Binary_expression (op, expr1, expr2);
+        BinaryExpression.ArithmeticOperator op = getArithmeticOperator();
+        ArithmeticExpression expr1 = getArithmeticExpression();
+        ArithmeticExpression expr2 = getArithmeticExpression();
+        return new BinaryExpression (op, expr1, expr2);
     }
 
     /**
@@ -228,22 +224,18 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <arithmetic_op> → add_operator | sub_operator | mul_operator | div_operator
      */
-    private arithmetic_operator getArithmeticOperator() throws ParserException
+    private BinaryExpression.ArithmeticOperator getArithmeticOperator() throws ParserException
     {
-        arithmetic_operator op;
-        token tok = removeNextToken();
-        if (tok.getTokType() == tokentype.add_operator)
-            op = arithmetic_operator.add_operator;
-        else if (tok.getTokType() == tokentype.sub_operator)
-            op = arithmetic_operator.sub_operator;
-        else if (tok.getTokType() == tokentype.mul_operator)
-            op = arithmetic_operator.mul_operator;
-        else if (tok.getTokType() == tokentype.div_operator)
-            op = arithmetic_operator.div_operator;
-        else if (tok.getTokType() == tokentype.left_parent)
-            op = arithmetic_operator.left_parent;
-        else if (tok.getTokType() == tokentype.right_parent)
-            op = arithmetic_operator.right_parent;
+        BinaryExpression.ArithmeticOperator op;
+        Token tok = getNextToken();
+        if (tok.getTokType() == TokenType.ADD_TOK)
+            op = BinaryExpression.ArithmeticOperator.ADD_OP;
+        else if (tok.getTokType() == TokenType.SUB_TOK)
+            op = BinaryExpression.ArithmeticOperator.SUB_OP;
+        else if (tok.getTokType() == TokenType.MUL_TOK)
+            op = BinaryExpression.ArithmeticOperator.MUL_OP;
+        else if (tok.getTokType() == TokenType.DIV_TOK)
+            op = BinaryExpression.ArithmeticOperator.DIV_OP;
         else
             throw new ParserException ("arithmetic operator expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
@@ -254,14 +246,14 @@ public class Parser
      * @return literal integer
      * @throws ParserException if a parsing error occurred
      */
-    private literal_integer getLiteralInteger() throws ParserException
+    private LiteralInteger getLiteralInteger() throws ParserException
     {
-        token tok = removeNextToken ();
-        if (tok.getTokType() != tokentype.literal_integer)
+        Token tok = getNextToken ();
+        if (tok.getTokType() != TokenType.LITERAL_INTEGER_TOK)
             throw new ParserException ("literal integer expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
         int value = Integer.parseInt(tok.getLexeme());
-        return new literal_integer (value);
+        return new LiteralInteger (value);
     }
 
     /**
@@ -270,8 +262,8 @@ public class Parser
      */
     private Id getId() throws ParserException
     {
-        token tok = removeNextToken();
-        if (tok.getTokType() != tokentype.id)
+        Token tok = getNextToken();
+        if (tok.getTokType() != TokenType.ID_TOK)
             throw new ParserException ("identifier expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
         return new Id (tok.getLexeme().charAt(0));
@@ -282,12 +274,12 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <boolean_expression> → <relative_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private Boolean_expression getBooleanExpression() throws ParserException
+    private BooleanExpression getBooleanExpression() throws ParserException
     {
-        Relative_op op = getRelationalOperator();
-        arithmetic_expression expr1 = getArithmeticExpression();
-        arithmetic_expression expr2 = getArithmeticExpression ();
-        return new Boolean_expression(op, expr1, expr2);
+        BooleanExpression.RelationalOperator op = getRelationalOperator();
+        ArithmeticExpression expr1 = getArithmeticExpression();
+        ArithmeticExpression expr2 = getArithmeticExpression ();
+        return new BooleanExpression (op, expr1, expr2);
     }
 
     /**
@@ -295,22 +287,22 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <relative_op> → le_operator | lt_operator | ge_operator | gt_operator | eq_operator | ne_operator
      */
-    private Relative_op getRelationalOperator() throws ParserException
+    private BooleanExpression.RelationalOperator getRelationalOperator() throws ParserException
     {
-        Relative_op op;
-        token tok = removeNextToken();
-        if (tok.getTokType() == tokentype.eq_operator)
-            op = Relative_op.eq_operator;
-        else if (tok.getTokType() == tokentype.ne_operator)
-            op = Relative_op.ne_operator;
-        else if (tok.getTokType() == tokentype.gt_operator)
-            op = Relative_op.gt_operator;
-        else if (tok.getTokType() == tokentype.ge_operator)
-            op = Relative_op.ge_operator;
-        else if (tok.getTokType() == tokentype.lt_operator)
-            op = Relative_op.lt_operator;
-        else if (tok.getTokType() == tokentype.le_operator)
-            op = Relative_op.le_operator;
+        BooleanExpression.RelationalOperator op;
+        Token tok = getNextToken();
+        if (tok.getTokType() == TokenType.EQ_TOK)
+            op = BooleanExpression.RelationalOperator.EQ_OP;
+        else if (tok.getTokType() == TokenType.NE_TOK)
+            op = BooleanExpression.RelationalOperator.NE_OP;
+        else if (tok.getTokType() == TokenType.GT_TOK)
+            op = BooleanExpression.RelationalOperator.GT_OP;
+        else if (tok.getTokType() == TokenType.GE_TOK)
+            op = BooleanExpression.RelationalOperator.GE_OP;
+        else if (tok.getTokType() == TokenType.LT_TOK)
+            op = BooleanExpression.RelationalOperator.LT_OP;
+        else if (tok.getTokType() == TokenType.LE_TOK)
+            op = BooleanExpression.RelationalOperator.LE_OP;
         else
             throw new ParserException ("relational operator expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
@@ -335,12 +327,12 @@ public class Parser
      * @return copy of next token
      * @throws ParserException if there are no more tokens
      */
-    private token getNextToken() throws ParserException
+    private token getLookaheadToken() throws ParserException
     {
         token tok = null;
         try
         {
-            tok = lex.getNextToken();//looking ahead
+            tok = lex.getLookaheadToken();
         }
         catch (LexicalException e)
         {
@@ -353,12 +345,12 @@ public class Parser
      * @return next token
      * @throws ParserException if there are no more tokens
      */
-    private token removeNextToken() throws ParserException
+    private token getNextToken() throws ParserException
     {
         token tok = null;
         try
         {
-            tok = lex.removeNexttoken();
+            tok = lex.getNextToken();
         }
         catch (LexicalException e)
         {
@@ -367,4 +359,3 @@ public class Parser
         return tok;
     }
 }
-

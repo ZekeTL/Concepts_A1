@@ -148,14 +148,14 @@ public class LexicalAnalyzer {
         return index;
     }
 
-    public token getNextToken() throws LexicalException //looking ahead
+    public token getLookaheadToken()  throws LexicalException //looking ahead
     {
         if (tokens.isEmpty())
             throw new LexicalException ("no more tokens");
         return tokens.get(0);
     }
 
-    public token removeNexttoken() throws LexicalException
+    public token getNextToken() throws LexicalException
     {
         if (tokens.isEmpty())
             throw new LexicalException ("There aren't any more tokens");
