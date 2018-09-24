@@ -72,8 +72,10 @@ public class LexicalAnalyzer {
                 tokType = tokentype.print_tok;
             else if (lexeme.equals("while"))
                 tokType = tokentype.while_tok;
+            else if (lexeme.equals("for"))
+                tokType = tokentype.for_tok;
             else
-                throw new LexicalException ("invalid lexeme "+ " at row " +
+                throw new LexicalException ( "invalid lexeme "+ " at row " +
                         rowNumber  + " and column " + columnNumber);
         }
         else if(isValidIdentifier(lexeme.charAt(0)))
