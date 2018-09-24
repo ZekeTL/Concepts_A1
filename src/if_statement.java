@@ -8,7 +8,7 @@ public class if_statement implements Statement{
     private Block blk, blk2;
 
 
-    public if_statement(Boolean_expression b_expr, Block blk, Block bl2)
+    public if_statement(Boolean_expression b_expr, Block blk, Block blk2)
     {
         if (b_expr == null)
         {

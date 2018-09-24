@@ -67,7 +67,7 @@ public class Parser
     /**
      * @return statement object
      * @throws ParserException if a parsing error occurred
-     * implements the production <statement> → <if_statement> | <assignment_statement> | <while_statement> | <print_statement> | <repeat_statement>
+     * implements the production <statement> → <if_statement> | <assignment_statement> | <while_statement> | <print_statement> | <for_statement>
      */
     private Statement getStatement() throws ParserException
     {
@@ -79,7 +79,8 @@ public class Parser
             stmt = getWhileStatement();
         else if (tok.getTokType() == tokentype.print_tok)
             stmt = getPrintStatement();
-//            stmt = getRepeatStatement();
+        else if (tok.getTokType() == tokentype.for_tok)
+            stmt = getForStatement();
         else if (tok.getTokType() == tokentype.id)
             stmt = getAssignmentStatement();
         else
@@ -135,6 +136,19 @@ public class Parser
         tok = getNextToken();
         match (tok, tokentype.end_tok);
         return new while_statement (expr, blk);
+    }
+    //TODO
+    private Statement getForStatement() throws ParserException
+    {
+        token tok = getNextToken ();
+        match (tok, tokentype.for_tok);
+        Boolean_expression expr = getBooleanExpression();
+        //tok = getNextToken ();
+        //match (tok, tokentype.);
+        Block blk = getBlock();
+        tok = getNextToken();
+        match (tok, tokentype.end_tok);
+        return new for_statement (stat, expr, blk);
     }
 
     /**
