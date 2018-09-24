@@ -143,32 +143,32 @@ public class Parser
      */
     private Statement getIfStatement() throws ParserException
     {
-        Token tok = getNextToken ();
-        match (tok, TokenType.IF_TOK);
-        BooleanExpression expr = getBooleanExpression();
-        tok = getNextToken ();
-        match (tok, TokenType.THEN_TOK);
+        token tok = getNextToken ();
+        match (tok, tokentype.if_tok);
+        Boolean_expression expr = getBooleanExpression();
+        //tok = getNextToken ();
+        //match (tok, TokenType.THEN_TOK);
         Block blk1 = getBlock();
         tok = getNextToken ();
-        match (tok, TokenType.ELSE_TOK);
+        match (tok, tokentype.else_tok);
         Block blk2 = getBlock();
         tok = getNextToken();
-        match (tok, TokenType.END_TOK);
-        return new IfStatement (expr, blk1, blk2);
+        match (tok, tokentype.end_tok);
+        return new if_statement (expr, blk1, blk2);
     }
 
     /**
      * @param tok cannot be null - checked with assertion
      * @return whether tok can be the start of a statement
      */
-    private boolean isValidStartOfStatement(Token tok)
+    private boolean isValidStartOfStatement(token tok)
     {
         assert (tok != null);
-        return tok.getTokType() == TokenType.ID_TOK ||
-                tok.getTokType() == TokenType.IF_TOK ||
-                tok.getTokType() == TokenType.WHILE_TOK ||
-                tok.getTokType() == TokenType.PRINT_TOK ||
-                tok.getTokType() == TokenType.REPEAT_TOK;
+        return tok.getTokType() == tokentype.id ||
+                tok.getTokType() == tokentype.if_tok ||
+                tok.getTokType() == tokentype.while_tok ||
+                tok.getTokType() == tokentype.print_tok ||
+                tok.getTokType() == tokentype.for_tok
     }
 
     /**
@@ -176,13 +176,13 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <arithmetic_expression> → <id> | <literal_integer> | <arithmetic_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private ArithmeticExpression getArithmeticExpression() throws ParserException
+    private arithmetic_expression getArithmeticExpression() throws ParserException
     {
-        ArithmeticExpression expr;
-        Token tok = getLookaheadToken();
-        if (tok.getTokType() == TokenType.ID_TOK)
+        arithmetic_expression expr;
+        token tok = getLookaheadToken();
+        if (tok.getTokType() == tokentype.id)
             expr = getId();
-        else if (tok.getTokType() == TokenType.LITERAL_INTEGER_TOK)
+        else if (tok.getTokType() == tokentype.literal_integer)
             expr = getLiteralInteger();
         else
             expr = getBinaryExpression();
@@ -194,12 +194,12 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the grammar expression <arithmetic_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private BinaryExpression getBinaryExpression() throws ParserException
+    private Binary_expression getBinaryExpression() throws ParserException
     {
-        BinaryExpression.ArithmeticOperator op = getArithmeticOperator();
-        ArithmeticExpression expr1 = getArithmeticExpression();
-        ArithmeticExpression expr2 = getArithmeticExpression();
-        return new BinaryExpression (op, expr1, expr2);
+        arithmetic_operator op = getArithmeticOperator();
+        arithmetic_expression expr1 = getArithmeticExpression();
+        arithmetic_expression expr2 = getArithmeticExpression();
+        return new Binary_expression (op, expr1, expr2);
     }
 
     /**
@@ -207,18 +207,18 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <arithmetic_op> → add_operator | sub_operator | mul_operator | div_operator
      */
-    private BinaryExpression.ArithmeticOperator getArithmeticOperator() throws ParserException
+    private arithmetic_operator getArithmeticOperator() throws ParserException
     {
-        BinaryExpression.ArithmeticOperator op;
-        Token tok = getNextToken();
-        if (tok.getTokType() == TokenType.ADD_TOK)
-            op = BinaryExpression.ArithmeticOperator.ADD_OP;
-        else if (tok.getTokType() == TokenType.SUB_TOK)
-            op = BinaryExpression.ArithmeticOperator.SUB_OP;
-        else if (tok.getTokType() == TokenType.MUL_TOK)
-            op = BinaryExpression.ArithmeticOperator.MUL_OP;
-        else if (tok.getTokType() == TokenType.DIV_TOK)
-            op = BinaryExpression.ArithmeticOperator.DIV_OP;
+        arithmetic_operator op;
+        token tok = getNextToken();
+        if (tok.getTokType() == tokentype.add_operator)
+            op = arithmetic_operator.add_operator;
+        else if (tok.getTokType() == tokentype.sub_operator)
+            op = arithmetic_operator.sub_operator;
+        else if (tok.getTokType() == tokentype.mul_operator)
+            op = arithmetic_operator.mul_operator;
+        else if (tok.getTokType() == tokentype.div_operator)
+            op = arithmetic_operator.div_operator;
         else
             throw new ParserException ("arithmetic operator expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
@@ -229,24 +229,23 @@ public class Parser
      * @return literal integer
      * @throws ParserException if a parsing error occurred
      */
-    private LiteralInteger getLiteralInteger() throws ParserException
-    {
-        Token tok = getNextToken ();
-        if (tok.getTokType() != TokenType.LITERAL_INTEGER_TOK)
-            throw new ParserException ("literal integer expected at row " +
-                    tok.getRowNumber()  + " and column " + tok.getColumnNumber());
+    private literal_integer getLiteralInteger() throws ParserException {
+        token tok = getNextToken();
+        if (tok.getTokType() != tokentype.literal_integer)
+            throw new ParserException("literal integer expected at row " +
+                    tok.getRowNumber() + " and column " + tok.getColumnNumber());
         int value = Integer.parseInt(tok.getLexeme());
-        return new LiteralInteger (value);
-    }
+        return new literal_integer(value);
 
+    }
     /**
      * @return an id
      * @throws ParserException if a parsing error occurred
      */
     private Id getId() throws ParserException
     {
-        Token tok = getNextToken();
-        if (tok.getTokType() != TokenType.ID_TOK)
+        token tok = getNextToken();
+        if (tok.getTokType() != tokentype.id)
             throw new ParserException ("identifier expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
         return new Id (tok.getLexeme().charAt(0));
@@ -257,12 +256,12 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <boolean_expression> → <relative_op> <arithmetic_expression> <arithmetic_expression>
      */
-    private BooleanExpression getBooleanExpression() throws ParserException
+    private Boolean_expression getBooleanExpression() throws ParserException
     {
-        BooleanExpression.RelationalOperator op = getRelationalOperator();
-        ArithmeticExpression expr1 = getArithmeticExpression();
-        ArithmeticExpression expr2 = getArithmeticExpression ();
-        return new BooleanExpression (op, expr1, expr2);
+        Relative_op op = getRelationalOperator();
+        arithmetic_expression expr1 = getArithmeticExpression();
+        arithmetic_expression expr2 = getArithmeticExpression();
+        return new Boolean_expression (op, expr1, expr2);
     }
 
     /**
@@ -270,22 +269,22 @@ public class Parser
      * @throws ParserException if a parsing error occurred
      * implements the production <relative_op> → le_operator | lt_operator | ge_operator | gt_operator | eq_operator | ne_operator
      */
-    private BooleanExpression.RelationalOperator getRelationalOperator() throws ParserException
+    private Relative_op  getRelationalOperator() throws ParserException
     {
-        BooleanExpression.RelationalOperator op;
-        Token tok = getNextToken();
-        if (tok.getTokType() == TokenType.EQ_TOK)
-            op = BooleanExpression.RelationalOperator.EQ_OP;
-        else if (tok.getTokType() == TokenType.NE_TOK)
-            op = BooleanExpression.RelationalOperator.NE_OP;
-        else if (tok.getTokType() == TokenType.GT_TOK)
-            op = BooleanExpression.RelationalOperator.GT_OP;
-        else if (tok.getTokType() == TokenType.GE_TOK)
-            op = BooleanExpression.RelationalOperator.GE_OP;
-        else if (tok.getTokType() == TokenType.LT_TOK)
-            op = BooleanExpression.RelationalOperator.LT_OP;
-        else if (tok.getTokType() == TokenType.LE_TOK)
-            op = BooleanExpression.RelationalOperator.LE_OP;
+        Relative_op op;
+        token tok = getNextToken();
+        if (tok.getTokType() == tokentype.eq_operator)
+            op = Relative_op.eq_operator;
+        else if (tok.getTokType() == tokentype.ne_operator)
+            op = Relative_op.ne_operator;
+        else if (tok.getTokType() == tokentype.gt_operator)
+            op = Relative_op.gt_operator;
+        else if (tok.getTokType() == tokentype.ge_operator)
+            op = Relative_op.ge_operator;
+        else if (tok.getTokType() == tokentype.lt_operator)
+            op = Relative_op.lt_operator;
+        else if (tok.getTokType() == tokentype.le_operator)
+            op = Relative_op.le_operator;
         else
             throw new ParserException ("relational operator expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
