@@ -144,8 +144,9 @@ public class Parser
         match (tok, tokentype.for_tok);
         Statement stat = getAssignmentStatement();
         Boolean_expression expr = getBooleanExpression();
-        //tok = getNextToken ();
-        //match (tok, tokentype.);
+        tok = getNextToken ();
+        match (tok, tokentype.colon_tok);
+        //TODO
         Block blk = getBlock();
         tok = getNextToken();
         match (tok, tokentype.end_tok);
