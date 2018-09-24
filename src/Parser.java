@@ -34,10 +34,8 @@ public class Parser
     {
         token tok = removeNextToken();
         match (tok, tokentype.function_tok);
-
         //tok = getNextToken();
         //match(tok,tokentype.id);
-
         Id functionName = getId();
         tok = removeNextToken ();
         match (tok, tokentype.left_parent);
@@ -137,10 +135,10 @@ public class Parser
     {
         token tok = removeNextToken();
         match (tok, tokentype.print_tok);
-        tok = getNextToken ();
+        tok = removeNextToken();
         match (tok, tokentype.left_parent);
         arithmetic_expression expr = getArithmeticExpression();
-        tok = getNextToken ();
+        tok = removeNextToken();
         match (tok, tokentype.right_parent);
         return new Print_statement (expr);
     }
@@ -156,7 +154,7 @@ public class Parser
         match (tok, tokentype.while_tok);
         Boolean_expression expr = getBooleanExpression();
         Block blk = getBlock();
-        tok = getNextToken();
+        tok = removeNextToken();
         match (tok, tokentype.end_tok);
         return new while_statement (expr, blk);
     }
@@ -172,10 +170,10 @@ public class Parser
         match (tok, tokentype.if_tok);
         Boolean_expression expr = getBooleanExpression();
         Block blk1 = getBlock();
-        tok = getNextToken ();
+        tok = removeNextToken ();
         match (tok, tokentype.else_tok);
         Block blk2 = getBlock();
-        tok = getNextToken();
+        tok = removeNextToken();
         match (tok, tokentype.end_tok);
         return new if_statement(expr, blk1, blk2);
     }
@@ -202,7 +200,7 @@ public class Parser
     private arithmetic_expression getArithmeticExpression() throws ParserException
     {
         arithmetic_expression expr;
-        token tok = getNextToken();
+        token tok = getNextToken(); //looking ahead
         if (tok.getTokType() == tokentype.id)
             expr = getId();
         else if (tok.getTokType() == tokentype.literal_integer)

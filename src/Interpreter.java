@@ -9,7 +9,7 @@ public class Interpreter {
     {
         try
         {
-            Parser pars = new Parser ("test2.jl");
+            Parser pars = new Parser ("test1.jl");
             Program pro = pars.parse();
             pro.execute();
         }
