@@ -137,15 +137,15 @@ public class Parser
         match (tok, tokentype.end_tok);
         return new while_statement (expr, blk);
     }
-    //TODO
+
     private Statement getForStatement() throws ParserException
     {
         token tok = getNextToken ();
         match (tok, tokentype.for_tok);
         Statement stat = getAssignmentStatement();
         Boolean_expression expr = getBooleanExpression();
-        tok = getNextToken ();
-        match (tok, tokentype.colon_tok);
+        //tok = getNextToken ();
+        //match (tok, tokentype.colon_tok);
         //TODO
         Block blk = getBlock();
         tok = getNextToken();
