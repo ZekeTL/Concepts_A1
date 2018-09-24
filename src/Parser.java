@@ -242,6 +242,10 @@ public class Parser
             op = arithmetic_operator.mul_operator;
         else if (tok.getTokType() == tokentype.div_operator)
             op = arithmetic_operator.div_operator;
+        else if (tok.getTokType() == tokentype.left_parent)
+            op = arithmetic_operator.left_parent;
+        else if (tok.getTokType() == tokentype.right_parent)
+            op = arithmetic_operator.right_parent;
         else
             throw new ParserException ("arithmetic operator expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
