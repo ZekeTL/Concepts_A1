@@ -112,6 +112,8 @@ public class LexicalAnalyzer {
             tokType = tokentype.left_parent;
         else if (lexeme.equals(")"))
             tokType = tokentype.right_parent;
+        else if (lexeme.equals(":"))
+            tokType = tokentype.colon_tok;
         else
             throw new LexicalException ("invalid lexeme "+ " at row " +
                     rowNumber  + " and column " + columnNumber);
