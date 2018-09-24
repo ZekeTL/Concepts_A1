@@ -2,42 +2,48 @@
  * Created by D. Tyla on 9/19/2018.
  */
 
+
 public class Memory
 {
 
-    private static int[] mem = {0,0,0};
+    private static int[] mem = new int[52];
+
 
     /**
-     * @param ch - must be a valid identifier
-     * @return value of ch
-     * @throws IllegalArgumentException if ch is not a valid identifier
+     * @param ch must be a letter
+     * @param value to be stored
+     * postcondition: value has been stored in the memory location
+     *                associated with ch
      */
-    public static int fetch (char ch)
+    public static void store(char ch, int value)
     {
-        return mem[getIndex(ch)];
+        mem[indexOf(ch)] = value;
     }
 
     /**
-     * @param ch - must be a valid identifier
-     * @param value
-     * @throws IllegalArgumentException if ch is not a valid identifier
+     * @param ch - must be a letter
+     * @return index in memory array associated with ch
+     * @throws IllegalArgumentException if ch is not a letter
      */
-    public static void store (char ch, int value)
+    private static int indexOf(char ch)
     {
-        mem[getIndex(ch)] = value;
+        if (!Character.isLetter(ch))
+            throw new IllegalArgumentException ("invalid identifier argument");
+        int index;
+        if (Character.isLowerCase(ch))
+            index = ch - 'a';
+        else
+            index = 26 + ch - 'A';
+        return index;
     }
 
-    private static int getIndex (char ch)
+    /**
+     * @param ch must be a letter
+     * @return value stored at memory location associated with ch
+     */
+    public static int fetch(char ch)
     {
-        if (!LexicalAnalyzer.isValidIdentifier(ch))
-            throw new IllegalArgumentException (ch + " is not a valid identifier");
-        return ch - 97;
-
+        return mem[indexOf(ch)];
     }
 
-    public static void displayMemory()
-    {
-        for (int i = 0; i < 3; i++)
-            System.out.println ((char)('A' + i) + ": " + mem[i]);
-    }
 }

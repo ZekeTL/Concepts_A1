@@ -1,10 +1,11 @@
 import java.io.FileNotFoundException;
 
 /**
- * @author dgayler
+ * Created by D. Tyla on 9/20/2018.
+ */
+/**
  *
  * Parser class implements a recursive descent parsing algorithm
- * for the given grammar of a subset of Lua
  */
 public class Parser
 {
@@ -168,7 +169,7 @@ public class Parser
                 tok.getTokType() == tokentype.if_tok ||
                 tok.getTokType() == tokentype.while_tok ||
                 tok.getTokType() == tokentype.print_tok ||
-                tok.getTokType() == tokentype.for_tok
+                tok.getTokType() == tokentype.for_tok;
     }
 
     /**
