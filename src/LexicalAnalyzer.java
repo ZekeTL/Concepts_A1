@@ -166,6 +166,15 @@ public class LexicalAnalyzer {
         return tokens.remove(0);
     }
 
+    public token[] getForExpression(){
+        token[] for_tokens = new token[3];
+
+        for(int i = 0; i < for_tokens.length - 1; i++){
+            for_tokens[i] = tokens.get(i);
+        }
+        return for_tokens;
+    }
+
     public static boolean isValidIdentifier(char ch){
         if(Character.isLetter(ch) && Character.isLowerCase(ch)) return true;
         else return false;

@@ -148,6 +148,7 @@ public class Parser
         //match (tok, tokentype.colon_tok);
         //TODO
         Block blk = getBlock();
+        LexicalAnalyzer.();
         tok = getNextToken();
         match (tok, tokentype.colon_tok);
         Boolean_expression expr = getBooleanExpression();
