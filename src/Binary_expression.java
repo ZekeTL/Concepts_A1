@@ -6,6 +6,8 @@ public class Binary_expression implements arithmetic_expression{
 
     public Binary_expression(arithmetic_operator op, arithmetic_expression expr1, arithmetic_expression expr2)
     {
+        if (op == null)
+            throw new IllegalArgumentException ("null arithmetic operator argument");
         if (expr1 == null || expr2 == null)
             throw new IllegalArgumentException ("null expression argument");
         this.expr1 = expr1;

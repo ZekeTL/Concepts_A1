@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 /**
  * Created by D. Tyla on 9/6/2018.
  */
@@ -14,14 +13,14 @@ public class Block{
     }
 
     public void add(Statement statement){
+        if (ar == null)
+            throw new IllegalArgumentException ("null statement argument");
         ar.add(statement);
     }
 
     public void process(){
-        Iterator<Statement> iterate = this.ar.iterator();
-        while(iterate.hasNext()){
-            iterate.next().execute();
-        }
+        for (int i = 0; i < ar.size(); i++)
+            ar.get(i).execute();
     }
     public int size(){
         return this.ar.size();
