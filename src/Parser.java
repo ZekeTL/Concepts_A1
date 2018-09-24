@@ -78,7 +78,7 @@ public class Parser
             stmt = getWhileStatement();
         else if (tok.getTokType() == tokentype.print_tok)
             stmt = getPrintStatement();
-            stmt = getRepeatStatement();
+//            stmt = getRepeatStatement();
         else if (tok.getTokType() == tokentype.id)
             stmt = getAssignmentStatement();
         else
