@@ -29,18 +29,18 @@ public class Parser
      */
     public Program parse () throws ParserException
     {
-        Token tok = getNextToken();
-        match (tok, TokenType.FUNCTION_TOK);
+        token tok = getNextToken();
+        match (tok, tokentype.function_tok);
         Id functionName = getId();
         tok = getNextToken ();
-        match (tok, TokenType.LEFT_PAREN_TOK);
+        match (tok, tokentype.id.left_parent);
         tok = getNextToken ();
-        match (tok, TokenType.RIGHT_PAREN_TOK);
+        match (tok, tokentype.right_parent);
         Block blk = getBlock();
         tok = getNextToken ();
-        match (tok, TokenType.END_TOK);
+        match (tok, tokentype.end_tok);
         tok = getNextToken();
-        if (tok.getTokType() != TokenType.EOS_TOK)
+        if (tok.getTokType() != tokentype.EOS_TOK)
             throw new ParserException ("garbage at end of file");
         return new Program (blk);
     }
@@ -53,7 +53,7 @@ public class Parser
     private Block getBlock() throws ParserException
     {
         Block blk = new Block();
-        Token tok = getLookaheadToken();
+        token tok = getLookaheadToken();
         while (isValidStartOfStatement (tok))
         {
             Statement stmt = getStatement();
@@ -71,16 +71,15 @@ public class Parser
     private Statement getStatement() throws ParserException
     {
         Statement stmt;
-        Token tok = getLookaheadToken();
-        if (tok.getTokType() == TokenType.IF_TOK)
+        token tok = getLookaheadToken();
+        if (tok.getTokType() == tokentype.if_tok)
             stmt = getIfStatement();
-        else if (tok.getTokType() == TokenType.WHILE_TOK)
+        else if (tok.getTokType() == tokentype.while_tok)
             stmt = getWhileStatement();
-        else if (tok.getTokType() == TokenType.PRINT_TOK)
+        else if (tok.getTokType() == tokentype.print_tok)
             stmt = getPrintStatement();
-        else if (tok.getTokType() == TokenType.REPEAT_TOK)
             stmt = getRepeatStatement();
-        else if (tok.getTokType() == TokenType.ID_TOK)
+        else if (tok.getTokType() == tokentype.id)
             stmt = getAssignmentStatement();
         else
             throw new ParserException ("invalid statement at row " +
@@ -96,26 +95,10 @@ public class Parser
     private Statement getAssignmentStatement() throws ParserException
     {
         Id var = getId();
-        Token tok = getNextToken();
-        match (tok, TokenType.ASSIGN_TOK);
-        ArithmeticExpression expr = getArithmeticExpression();
-        return new AssignmentStatement (var, expr);
-    }
-
-    /**
-     * @return repeat statement
-     * @throws ParserException if a parsing error occurred
-     * implements the production <repeat_statement> -> repeat <block> until <boolean_expression>
-     */
-    private Statement getRepeatStatement() throws ParserException
-    {
-        Token tok = getNextToken();
-        match (tok, TokenType.REPEAT_TOK);
-        Block blk = getBlock();
-        tok = getNextToken();
-        match (tok, TokenType.UNTIL_TOK);
-        BooleanExpression expr = getBooleanExpression();
-        return new RepeatStatement (blk, expr);
+        token tok = getNextToken();
+        match (tok, tokentype.assignment_operator);
+        arithmetic_expression expr = getArithmeticExpression();
+        return new assignment_statement (var, expr);
     }
 
     /**
@@ -125,14 +108,14 @@ public class Parser
      */
     private Statement getPrintStatement() throws ParserException
     {
-        Token tok = getNextToken();
-        match (tok, TokenType.PRINT_TOK);
+        token tok = getNextToken();
+        match (tok, tokentype.print_tok);
         tok = getNextToken ();
-        match (tok, TokenType.LEFT_PAREN_TOK);
-        ArithmeticExpression expr = getArithmeticExpression();
+        match (tok, tokentype.left_parent);
+        arithmetic_expression expr = getArithmeticExpression();
         tok = getNextToken ();
-        match (tok, TokenType.RIGHT_PAREN_TOK);
-        return new PrintStatement (expr);
+        match (tok, tokentype.right_parent);
+        return new Print_statement (expr);
     }
 
     /**
@@ -142,15 +125,15 @@ public class Parser
      */
     private Statement getWhileStatement() throws ParserException
     {
-        Token tok = getNextToken ();
-        match (tok, TokenType.WHILE_TOK);
-        BooleanExpression expr = getBooleanExpression();
-        tok = getNextToken ();
-        match (tok, TokenType.DO_TOK);
+        token tok = getNextToken ();
+        match (tok, tokentype.while_tok);
+        Boolean_expression expr = getBooleanExpression();
+//        tok = getNextToken ();
+//        match (tok, tokentype.Do);
         Block blk = getBlock();
         tok = getNextToken();
-        match (tok, TokenType.END_TOK);
-        return new WhileStatement (expr, blk);
+        match (tok, tokentype.end_tok);
+        return new while_statement (expr, blk);
     }
 
     /**
