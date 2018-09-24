@@ -12,6 +12,7 @@ public class Interpreter {
             Parser pars = new Parser ("test4.jl");
             Program pro = pars.parse();
             pro.execute();
+
         }
         catch (ParserException e)
         {
