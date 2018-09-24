@@ -22,12 +22,17 @@ public class for_statement implements Statement {
     }
 
 
-
     @Override
     public void execute() {
         //stat.execute();
-        while(bool.eval()){
+        /*while(bool.eval()){
+            blk.process();
+        }*/
+
+        do
+        {
             blk.process();
         }
+        while (!bool.eval());
     }
 }

@@ -38,9 +38,9 @@ public class Boolean_expression {
             case ge_operator:
                 result = expr1.evaluate() >= expr2.evaluate();
                 break;
-            case colon_tok:
+            /*case colon_tok:
                 result = expr1.evaluate() <= expr2.evaluate();
-                break;
+                break;*/
         }
         return result;
     }

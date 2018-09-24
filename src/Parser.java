@@ -304,8 +304,8 @@ public class Parser
             op = Relative_op.lt_operator;
         else if (tok.getTokType() == tokentype.le_operator)
             op = Relative_op.le_operator;
-        else if (tok.getTokType() == tokentype.colon_tok)
-            op = Relative_op.colon_tok;
+        /*else if (tok.getTokType() == tokentype.colon_tok)
+            op = Relative_op.colon_tok;*/
         else
             throw new ParserException ("relational operator expected at row " +
                     tok.getRowNumber()  + " and column " + tok.getColumnNumber());
